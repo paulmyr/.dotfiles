@@ -113,7 +113,7 @@ function gcm() {
     then
         git commit -m "$1"
     else
-        git commit
+        echo "Please use a commit message"
     fi
 }
 function commitTex() {
