@@ -8,5 +8,4 @@ dannach in .dotfiles hineinnavigieren und
 
     stow
 
-verwenden.
-Fertig.
+verwenden. Fertig.

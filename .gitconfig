@@ -2,4 +2,7 @@
 [user]
 # Please adapt and uncomment the following lines:
 	name = Paul Mayer
-	email = paul@mayer-zuffenhausen.de
+	email = p@mayer-zuffenhausen.de
+	signingkey = 225B0058823CBF6E
+[commit]
+	gpgsign = true

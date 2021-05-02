@@ -137,7 +137,7 @@ alias SPW="~/scripts/syncPasswords.sh"
 # 2>&1 redirects stderr to stdout
 alias discord="~/bin/Discord/Discord > /tmp/discord.log 2>&1 &"
 
-function atex() {
+function mktex() {
     if [ -n "$1" ]
     then
         latexmk -pvc -pdf $1 &
@@ -146,7 +146,7 @@ function atex() {
     fi
 }
 
-function ctex() {
+function rmtex() {
     if [[ $1 == "-a" ]]
     then
         python3 ~/scripts/removeTexCompilationfiles.py -a
