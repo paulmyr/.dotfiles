@@ -1,8 +1,14 @@
 # This is Git's per-user configuration file.
 [user]
-# Please adapt and uncomment the following lines:
 	name = Paul Mayer
 	email = p@mayer-zuffenhausen.de
-	signingkey = 225B0058823CBF6E
+[core]
+        editor = vim
 [commit]
 	gpgsign = true
+[alias]
+co = checkout
+lol = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+unstage = reset HEAD --
+last = log -1 HEAD
+

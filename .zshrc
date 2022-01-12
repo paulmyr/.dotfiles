@@ -93,21 +93,40 @@ xset b 0 0 0
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-export PATH="home/mayerpa/scripts:$PATH"
-
 alias zshconfig="vim ~/.zshrc"
 alias zshreload="source ~/.zshrc"
 
-alias zypup="sudo zypper up"
-alias zypupd="sudo zypper up -D"
-alias zypdup="sudo zypper dup"
-alias zypdupd="sudo zypper dup -D"
-alias zypin="sudo zypper in"
-alias zypse="zypper se"
+# only for openSuse systems
+#alias zypup="sudo zypper up"
+#alias zypupd="sudo zypper up -D"
+#alias zypdup="sudo zypper dup"
+#alias zypdupd="sudo zypper dup -D"
+#alias zypin="sudo zypper in"
+#alias zypse="zypper se"
+
+# TODO: replace with git aliases
+alias gst="git status"
+alias gnuke="git restore ."
+alias gaddp="git add -p"
+alias gcm="git commit"
+alias gcmm="git commit -m"
 
 alias python="python3"
 
 alias gnuke="git restore ."
+
+alias cheat="cht.sh"
+
+alias UNI="cd ~/Documents/university/"
+
+# TODO: replace with actual functions
+alias syncPw="~/scripts/syncPasswords.sh"
+alias SPW="~/scripts/syncPasswords.sh"
+
+# Uncomment when discord is installed
+# 2>&1 redirects stderr to stdout
+# alias discord="~/bin/Discord/Discord > /tmp/discord.log 2>&1 &"
+
 function gcm() {
     if [ -n "$1" ]
     then
@@ -116,6 +135,7 @@ function gcm() {
         echo "Please use a commit message"
     fi
 }
+
 function commitTex() {
     git add *.tex
     if [ -n "$1" ]
@@ -127,15 +147,10 @@ function commitTex() {
     git push
 }
 
-alias cheat="cht.sh"
-
-alias UNI="cd ~/Documents/university/"
-
-alias syncPw="~/scripts/syncPasswords.sh"
-alias SPW="~/scripts/syncPasswords.sh"
-
-# 2>&1 redirects stderr to stdout
-alias discord="~/bin/Discord/Discord > /tmp/discord.log 2>&1 &"
+function lr() {
+    clear
+    l
+}
 
 function mktex() {
     if [ -n "$1" ]
@@ -155,3 +170,6 @@ function rmtex() {
     fi
     ls -l
 }
+
+export BROWSER=chromium
+export PATH="home/mayerpa/scripts:$PATH"
