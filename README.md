@@ -2,7 +2,7 @@
 
 Dieses repo clonen
 
-    git clone
+    git clone git@github.com:PaluTheBear/.dotfiles.git
 
 dannach in .dotfiles hineinnavigieren und
 
