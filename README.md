@@ -6,6 +6,6 @@ Dieses repo clonen
 
 dannach in .dotfiles hineinnavigieren und
 
-    stow
+    stow -D .
 
 verwenden. Fertig.
