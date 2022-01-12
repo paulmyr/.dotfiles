@@ -6,6 +6,6 @@ Dieses repo clonen
 
 dannach in .dotfiles hineinnavigieren und
 
-    stow --ignore='*.org' --ignore='.*\README' --ignore='.*\README.*' -D .
+    stow --ignore='*.orig' --ignore='.*\README' --ignore='.*\README.*' -D .
 
 verwenden. Fertig.
