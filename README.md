@@ -6,7 +6,7 @@ Dieses repo clonen
 
 dannach in .dotfiles hineinnavigieren und
 
-    stow --ignore='*.orig' --ignore='.*\README' --ignore='.*\README.*' -D <directory>
+    stow --ignore='*.orig' --ignore='.*\README' --ignore='.*\README.*' --no-folding -D <directory>
 
 verwenden, um die entsprechenden dotfiles zu installieren. Fertig.
 
