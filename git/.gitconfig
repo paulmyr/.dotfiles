@@ -12,3 +12,5 @@ lol = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgree
 unstage = reset HEAD --
 last = log -1 HEAD
 
+[init]
+	defaultBranch = master
