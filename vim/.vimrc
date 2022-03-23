@@ -14,8 +14,8 @@ Plugin 'VundleVim/Vundle.vim'
 " Keep Plugin commands between vundle#begin/end.
 " plugin on GitHub repo
 
-Plugin 'tpope/vim-fugitive'
-Plugin 'davidhalter/jedi-vim'
+" Plugin 'tpope/vim-fugitive'
+" Plugin 'davidhalter/jedi-vim'
 
 
 " All of your Plugins must be added before the following line
