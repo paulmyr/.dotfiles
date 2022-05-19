@@ -395,7 +395,7 @@
 
 (use-package yasnippet
   :config
-  (setq yas-snippet-dirs '("~/"))
+  (setq yas-snippet-dirs '("~/.emacs.yasnippets"))
   (yas-global-mode 1))
 
 

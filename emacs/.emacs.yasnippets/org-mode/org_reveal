@@ -1,0 +1,21 @@
+# -*- mode: snippet -*-
+# name: org reveal
+# key: <orgp
+# --
+
+:REVEAL_PROPERTIES:
+#+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js
+#+REVEAL_THEME: serif
+#+REVEAL_INIT_OPTIONS: slideNumber:true 
+#+REVEAL_HLEVEL: 3
+:END:
+
+:PROPERTIES:
+#+AUTHOR: Paul Mayer
+#+TITLE: ${1:title}
+#+DATE: ${2:2022-05-20}
+#+EMAIL: p@mayer-zuffenhausen.de
+#+OPTIONS: timestamp:nil num:nil toc:2
+:END:
+
+$0

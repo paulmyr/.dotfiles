@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: org source python
+# key: <sp
+# --
+
+#+BEGIN_SRC python
+$0
+#+END_SRC
