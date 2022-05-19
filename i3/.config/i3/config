@@ -11,13 +11,16 @@
 
 set $mod Mod4
 
+# set second monitor if available
+exec xrandr --output HDMI-1 --auto --left-of eDP-1
+
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:monospace 8
+font pango:monospace 12
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
-#font pango:DejaVu Sans Mono 8
+# font pango:DejaVu Sans Mono 8
 
 # Start XDG autostart .desktop files using dex. See also
 # https://wiki.archlinux.org/index.php/XDG_Autostart
@@ -34,7 +37,9 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
 
-exec --no-startup-id feh --bg-scale --no-fehbg ~/Pictures/wallpaper/nZBJAsK.jpg
+exec --no-startup-id feh --bg-scale ~/Pictures/wallpaper/nZBJAsK.jpg
+
+exec --no-startup-id insync start
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
@@ -53,9 +58,10 @@ bindsym $mod+Return exec konsole
 bindsym $mod+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec --no-startup-id dmenu_run
+# bindsym $mod+d exec --no-startup-id dmenu_run -fn "monospace 15" 
 # A more modern dmenu replacement is rofi:
-# bindcode $mod+40 exec "rofi -modi drun,run -show drun"
+bindsym $mod+d exec "rofi -combi-modi window,drun,ssh -theme fancy -font 'hack 10' -show combi"
+
 # There also is i3-dmenu-desktop which only displays applications shipping a
 # .desktop file. It is a wrapper around dmenu, so you need that installed.
 # bindcode $mod+40 exec --no-startup-id i3-dmenu-desktop
@@ -102,7 +108,10 @@ bindsym $mod+e layout toggle split
 bindsym $mod+Shift+space floating toggle
 
 # change focus between tiling / floating windows
-bindsym $mod+space focus mode_toggle
+# bindsym $mod+space focus mode_toggle
+exec setxkbmap -layout us
+bindsym $mod+Shift+d exec setxkbmap de
+bindsym $mod+Shift+e exec setxkbmap us
 
 # focus the parent container
 bindsym $mod+a focus parent
@@ -152,7 +161,7 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+q exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -181,7 +190,7 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-set $Locker i3lock && sleep 1
+set $Locker i3lock -e -t -i ~/Pictures/wallpaper/Tree.png && sleep 0
 
 set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
 mode "$mode_system" {
@@ -198,6 +207,9 @@ mode "$mode_system" {
 }
 
 bindsym $mod+End mode "$mode_system"
+# bindsym $mod+Shift+odiaeresis exec --no-startup-id i3lock -i ~/Pictures/wallpaper/Staircase.png
+bindsym $mod+Shift+odiaeresis exec convert ~/Pictures/wallpaper/Staircase.jpg RGB:- | i3lock --raw 2560x1440:rgb --image /dev/stdin
+bindsym $mod+Shift+semicolon exec convert ~/Pictures/wallpaper/Staircase.jpg RGB:- | i3lock --raw 2560x1440:rgb --image /dev/stdin
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)

@@ -93,6 +93,8 @@ xset b 0 0 0
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
+alias i3config="vim ~/.config/i3/config"
+
 alias zshconfig="vim ~/.zshrc"
 alias zshreload="source ~/.zshrc"
 
@@ -103,6 +105,12 @@ alias zshreload="source ~/.zshrc"
 #alias zypdupd="sudo zypper dup -D"
 #alias zypin="sudo zypper in"
 #alias zypse="zypper se"
+
+alias zyp="zypper"
+alias szyp="sudo zypper"
+alias sz="sudo zypper"
+
+alias mu="mupdf-x11"
 
 # TODO: replace with git aliases
 alias gst="git status"
@@ -118,6 +126,8 @@ alias gnuke="git restore ."
 alias cheat="cht.sh"
 
 alias UNI="cd ~/Documents/university/"
+
+alias ccat='pygmentize -g'
 
 # TODO: replace with actual functions
 alias syncPw="~/scripts/syncPasswords.sh"
@@ -172,4 +182,7 @@ function rmtex() {
 }
 
 export BROWSER=chromium
+export PATH="$PATH:/opt/jabref/bin/"
+export PATH="$PATH:$HOME/.emacs.d/bin/"
 export PATH="home/mayerpa/scripts:$PATH"
+export PATH="home/mayerpa/bin/Discord/:$PATH"
