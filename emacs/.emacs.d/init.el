@@ -335,6 +335,8 @@
     ("\\paragraph{%s}" . "\\paragraph*{%s}")
     ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
 
+(require 'org-inlinetask)
+
 (use-package ob-ipython)
 (use-package ob-kotlin)
 (use-package ob-typescript)
