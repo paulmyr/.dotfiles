@@ -20,7 +20,13 @@
   (setq mac-control-modifier 'meta)
   (setq mac-command-modifier 'control)
   (global-set-key [kp-delete] 'delete-char) ;; sets fn-delete to be right-delete
+  (setq visible-bell nil)
   )
+
+(when (not (eq system-type 'darwin))
+  (setq visible-bell t)
+  )
+
 
 ;; Initialize package sources
 (require 'package)
@@ -185,8 +191,6 @@
     "po"  '((lambda () (interactive) (projectile-switch-open-project)) :which-key "switch open project")
     ))
 
-
-(setq visible-bell t)
 
 (global-display-line-numbers-mode)             ;; line numbers
 (setq display-line-numbers-type 'relative)   ;; relative line numbers
