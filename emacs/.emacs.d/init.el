@@ -12,6 +12,16 @@
 
 (set-face-attribute 'default nil :font "Comic Code Ligatures" :height 125)
 
+;; mac specific settings
+(when (eq system-type 'darwin)
+  (setq mac-right-option-modifier 'none)
+  (setq mac-right-command-modifier 'none)
+  (setq mac-option-modifier 'alt)
+  (setq mac-control-modifier 'meta)
+  (setq mac-command-modifier 'control)
+  (global-set-key [kp-delete] 'delete-char) ;; sets fn-delete to be right-delete
+  )
+
 ;; Initialize package sources
 (require 'package)
 
