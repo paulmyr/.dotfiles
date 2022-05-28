@@ -5,7 +5,7 @@
 [core]
         editor = vim
 [commit]
-	gpgsign = true
+	gpgsign = false
 [alias]
 co = checkout
 lol = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
