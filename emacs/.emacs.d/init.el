@@ -16,7 +16,8 @@
 (when (eq system-type 'darwin)
   (setq mac-right-option-modifier 'none)
   (setq mac-right-command-modifier 'none)
-  (setq mac-option-modifier 'alt)
+  (setq mac-option-key-is-meta nil)
+  (setq mac-option-modifier nil)
   (setq mac-control-modifier 'meta)
   (setq mac-command-modifier 'control)
   (global-set-key [kp-delete] 'delete-char) ;; sets fn-delete to be right-delete
@@ -53,16 +54,22 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 
+(use-package undo-tree
+  :ensure t
+  :config
+  (global-undo-tree-mode))
+
 (use-package evil
   :init
   (setq evil-want-integration t)
   (setq evil-want-keybinding nil)
   (setq evil-want-C-u-scroll t)
+  (setq evil-undo-system 'undo-tree)
+  (setq evil-search-module 'evil-search)
   :config
   (evil-mode 1)                           ;; thanks but yes
   (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
   (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
-
   ;; use visual line motions even when not in visual line mode buffers
   ;; (evil-global-set-key 'motion "j" 'evil-next-visual-line)           ;; changes behaviour of y 2 j" to "y 1 j" which kinda sucks...
   ;; (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
@@ -99,7 +106,8 @@
   (ivy-mode 1))
 
 ;;; Spelling package
-;; (use-package ispell)
+;; (use-package aspell)
+(setq ispell-program-name "aspell")
 
 (use-package counsel
   :bind (("M-x" . counsel-M-x)
@@ -141,7 +149,7 @@
     ("w" nil "finished" :exit t))
 
 (defhydra hydra-window-scale (:timeout 4)
-    "scale text"
+    "scale window"
     ("<" evil-window-increase-width "increase width")
     (">" evil-window-decrease-width "decrease width")
     ("+" evil-window-increase-height "increase height")
@@ -153,7 +161,7 @@
   (general-create-definer mayerpa/leader-key
 			  :keymaps '(normal insert visual emacs)
 			  :prefix "SPC"
-			  :global-prefix "C-SPC")
+			  :global-prefix "M-SPC")
 
   (mayerpa/leader-key
     "."  '(dired :which-key "find file")
@@ -162,9 +170,9 @@
     "fi"  '((lambda () (interactive) (find-file "~/.config/i3/config")) :which-key "i3 config")
     "fz"  '((lambda () (interactive) (find-file "~/.zshrc")) :which-key "zsh config")
 
-    "t"   '(:ignore t :which-key "themes")
-    "tt"  '(counsel-load-theme :which-key "choose-theme")
-    "ts"  '(hydra-text-scale/body :which-key "scale text")
+    "s"   '(:ignore t :which-key "themes")
+    "st"  '(counsel-load-theme :which-key "choose-theme")
+    "ss"  '(hydra-text-scale/body :which-key "scale text")
 
     "w"  '(hydra-window-scale/body :which-key "scale window")
 
@@ -179,6 +187,12 @@
     "d."  '((lambda () (interactive) (dired "~/.dotfiles")) :which-key "dotfiles")
     "de"  '((lambda () (interactive) (dired "~/.emacs.d")) :which-key ".emacs.d")
 
+    "c"   '(org-capture :which-key "org capture menu")
+
+    "t"   '(:ignore t :which-key "terminal")
+    "tt"   '(vterm :which-key "open vterm buffer")
+    "tv"   '(vterm-other-window :which-key "vterm buffer in new window")
+
     "b"   '(:ignore t :which-key "buffer")
     "bk"  '((lambda () (interactive) (kill-current-buffer)) :which-key "kill current buffer")
     "bb"  '((lambda () (interactive) (counsel-ibuffer)) :which-key "choose buffer")
@@ -189,6 +203,8 @@
     "p"   '(:ignore t :which-key "projetile")
     "pp"  '((lambda () (interactive) (projectile-switch-project)) :which-key "switch project")
     "po"  '((lambda () (interactive) (projectile-switch-open-project)) :which-key "switch open project")
+
+	"r"   '(elfeed :which-key "elfeed")
     ))
 
 
@@ -216,8 +232,8 @@
   :diminish projectile-mode
   :config (projectile-mode)
   :init
-  (when (file-directory-p "~/Documents/university")
-    (setq projectile-project-search-path '("~/Documents/university" "~/Projects/")))
+  (when (file-directory-p "~/Projects")
+    (setq projectile-project-search-path '("~/Projects")))
   (setq projectile-switch-project-action #'projectile-dired)
   :custom ((projectile-completion-system 'ivy))
   :bind-keymap
@@ -240,8 +256,8 @@
   "C-c e" "ebib")
 (which-key-add-key-based-replacements
   "C-c C-e" "ebib")
-(setq ebib-preload-bib-files '("/home/mayerpa/Documents/university/bachelor_thesis/paperkasten.bib"))
-(setq bibtex-completion-bibliography '("/home/mayerpa/Documents/university/bachelor_thesis/paperkasten.bib"))
+(setq ebib-preload-bib-files '("~/Projects/bthesis/paperkasten.bib"))
+(setq bibtex-completion-bibliography '("~/Projects/bthesis/paperkasten.bib"))
 
 ;;; Spelling
 ;; (after! ispell
@@ -326,6 +342,35 @@
 
   :config
   (setq org-ellipsis " ▾")
+
+  (setq org-agenda-start-with-log-mode t)
+  (setq org-log-time 'time)
+  (setq org-log-into-drawer t)
+
+  (setq org-refile-targets
+		'(("archive.org" :maxlevel . 1)))
+
+  (advice-add 'org-refile :after 'org-save-all-org-buffers)
+  
+  (setq org-agenda-files
+		'("~/Documents/org/tasks.org"
+		  "~/Projects/bthesis/motivation.org"))
+  (setq org-todo-keywords
+		'((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!)")))
+
+  (setq org-capture-templates
+		'(("t" "Tasks")
+		  ("tt" "Task" entry (file+olp "~/Documents/org/tasks.org" "Inbox")
+		   "* TODO %?\n %U\n %i" :empty-lines 1)
+		  ("tl" "Task with link to current location" entry (file+olp "~/Documents/org/tasks.org" "Inbox")
+		   "* TODO %?\n %U\n %a\n %i" :empty-lines 1)
+
+		  ("i" "Ideas")
+		  ("ii" "Idea" entry (file+olp "~/Documents/org/ideas.org" "Ideas")
+		   "* %?\n %U\n %i" :empty-lines 1)
+		  ("il" "Idea with Link to current location" entry (file+olp "~/Documents/org/ideas.org" "Ideas")
+		   "* %?\n %U\n %a\n %i" :empty-lines 1)))
+  
   (efs/org-font-setup))
 
 (use-package org-bullets
@@ -351,7 +396,6 @@
 
 (require 'org-inlinetask)
 
-(use-package ob-ipython)
 (use-package ob-kotlin)
 (use-package ob-typescript)
 (use-package ob-latex-as-png)
@@ -414,6 +458,36 @@
   (setq yas-snippet-dirs '("~/.emacs.yasnippets"))
   (yas-global-mode 1))
 
+(use-package lsp-mode
+  :commands (lsp lsp-deferred)
+  :init
+  (setq lsp-keymap-prefix "C-c l")
+  :config
+  (lsp-enable-which-key-integration t))
+
+(use-package typescript-mode
+  :mode "\\.ts\\'"
+  :hook (typescript-mode . lsp-deferred)
+  :config
+  (setq typescript-indent-level 2))
+
+(use-package lsp-java
+  :mode "\\.java\\'"
+  :hook (java-mode . lsp-deferred))
+
+(use-package elfeed
+  :config
+  ;; Somewhere in your .emacs file
+  (setq elfeed-feeds
+		'("http://arxiv.org/rss/cs.CL"
+		  "http://arxiv.org/rss/cs.LG"))
+  (global-set-key (kbd "C-x w") 'elfeed))
+
+(use-package vterm
+  :commands vterm
+  :config
+  (setq vterm-shell "zsh")
+  (setq vterm-max-scrollback 10000))
 
 ;; spell checking
 (dolist (hook '(text-mode-hook org-mode-hook))

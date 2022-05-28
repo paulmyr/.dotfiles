@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: org math dollar hyperbolic space
+# key: $bbH
+# --
+$\mathbb{H}$

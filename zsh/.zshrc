@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/home/mayerpa/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -74,10 +74,6 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-# Turn off system beep in console:
-xset b off
-xset b 0 0 0
-
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
@@ -93,8 +89,6 @@ xset b 0 0 0
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-alias i3config="vim ~/.config/i3/config"
-
 alias zshconfig="vim ~/.zshrc"
 alias zshreload="source ~/.zshrc"
 
@@ -105,12 +99,6 @@ alias zshreload="source ~/.zshrc"
 #alias zypdupd="sudo zypper dup -D"
 #alias zypin="sudo zypper in"
 #alias zypse="zypper se"
-
-alias zyp="zypper"
-alias szyp="sudo zypper"
-alias sz="sudo zypper"
-
-alias mu="mupdf-x11"
 
 # TODO: replace with git aliases
 alias gst="git status"
@@ -123,15 +111,7 @@ alias python="python3"
 
 alias gnuke="git restore ."
 
-alias cheat="cht.sh"
-
 alias UNI="cd ~/Documents/university/"
-
-alias ccat='pygmentize -g'
-
-# TODO: replace with actual functions
-alias syncPw="~/scripts/syncPasswords.sh"
-alias SPW="~/scripts/syncPasswords.sh"
 
 # Uncomment when discord is installed
 # 2>&1 redirects stderr to stdout
@@ -162,27 +142,5 @@ function lr() {
     l
 }
 
-function mktex() {
-    if [ -n "$1" ]
-    then
-        latexmk -pvc -pdf $1 &
-    else
-        echo "please specify tex filename"
-    fi
-}
-
-function rmtex() {
-    if [[ $1 == "-a" ]]
-    then
-        python3 ~/scripts/removeTexCompilationfiles.py -a
-    else
-        python3 ~/scripts/removeTexCompilationfiles.py
-    fi
-    ls -l
-}
-
-export BROWSER=chromium
-export PATH="$PATH:/opt/jabref/bin/"
-export PATH="$PATH:$HOME/.emacs.d/bin/"
-export PATH="home/mayerpa/scripts:$PATH"
-export PATH="home/mayerpa/bin/Discord/:$PATH"
+export PATH="$PATH:/Users/paulmayer/Library/Python/3.8/bin"
+export PATH="/opt/homebrew/opt/python@3.10/bin:$PATH"
