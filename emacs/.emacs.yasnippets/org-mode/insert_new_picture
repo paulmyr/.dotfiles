@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: insert_new_picure
+# key: <img
+# --
+#+NAME: $1
+#+CAPTION: $2
+#+ATTR_ORG: :width 200
+#+ATTR_HTML: :width 200px
+#+ATTR_LATEX: :width 200px
+$0

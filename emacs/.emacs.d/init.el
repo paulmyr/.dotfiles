@@ -160,7 +160,7 @@
   :config
   (general-create-definer mayerpa/leader-key
 			  :keymaps '(normal insert visual emacs)
-			  :prefix "SPC"
+			  :prefix "M-SPC"
 			  :global-prefix "M-SPC")
 
   (mayerpa/leader-key
@@ -335,6 +335,12 @@
   (set-face-attribute 'variable-pitch nil :font "Comic Code Ligatures")
   )
 
+(use-package tex
+  :ensure auctex
+  :config
+  (setq TeX-auto-save t)
+  (setq TeX-parse-self t))
+
 (use-package org
   :hook
   (org-mode . efs/org-mode-setup)
@@ -346,6 +352,9 @@
   (setq org-agenda-start-with-log-mode t)
   (setq org-log-time 'time)
   (setq org-log-into-drawer t)
+
+  (setq org-startup-with-inline-images t)
+  (setq org-image-actual-width nil)
 
   (setq org-refile-targets
 		'(("archive.org" :maxlevel . 1)))
@@ -400,9 +409,9 @@
 (use-package ob-typescript)
 (use-package ob-latex-as-png)
 
-;; (setq org-cite-export-processors '((latex biblatex) (t csl)))
-(setq org-cite-export-processors '((t csl)))
-(setq org-cite-csl-styles-dir "/home/mayerpa/.csl-citestyles/")
+(setq org-cite-export-processors '((latex biblatex) (t csl)))
+;; (setq org-cite-export-processors '((t csl)))
+;; (setq org-cite-csl-styles-dir "/home/mayerpa/.csl-citestyles/")
 
 (use-package org-ref
    :ensure nil
@@ -427,6 +436,9 @@
 (define-key org-mode-map (kbd "C-c [") 'org-cite-insert)
 (define-key evil-normal-state-map (kbd "C-c &") 'org-mark-ring-goto)
 (define-key evil-normal-state-map (kbd "C-c %") 'org-mark-ring-push)
+
+(defun org-insert-inline-image (file) (interactive "f") (insert (insert (format "[[%s]]" file))))
+(define-key org-mode-map (kbd "C-c C-i") 'org-insert-inline-image)
 
 ;;(setq org-publish-project-alist
 ;;      '(("blog-content"
@@ -488,6 +500,8 @@
   :config
   (setq vterm-shell "zsh")
   (setq vterm-max-scrollback 10000))
+
+(use-package ein)
 
 ;; spell checking
 (dolist (hook '(text-mode-hook org-mode-hook))

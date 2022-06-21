@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: bold
+# key: bb
+# --
+\bold{$1}$0

@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: dollar bold
+# key: $bb
+# --
+$\bold{$1}$0

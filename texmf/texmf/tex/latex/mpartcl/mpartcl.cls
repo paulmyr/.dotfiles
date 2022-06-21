@@ -4,10 +4,11 @@
 \usepackage[T1]{fontenc}
 %\usepackage[ngerman]{babel}
 
-\usepackage[draft]{graphicx}
+\usepackage{graphicx}
+% \usepackage[draft]{graphicx}
 \usepackage{longtable}
 \usepackage{float}
-\usepackage{wrapfig}
+\usepackage{wrapfig} % seems to not exist in max baisc
 \usepackage{soul}
 \usepackage{textcomp}
 \usepackage{marvosym}

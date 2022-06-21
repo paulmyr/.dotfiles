@@ -142,5 +142,14 @@ function lr() {
     l
 }
 
+function rswu() {
+    for f in "$@"
+    do 
+        mv "$f" "${f// /_}"
+    done
+}
+
 export PATH="$PATH:/Users/paulmayer/Library/Python/3.8/bin"
 export PATH="/opt/homebrew/opt/python@3.10/bin:$PATH"
+
+alias emacs='$(/Applications/Emacs.app/Contents/MacOS/Emacs "$@")'
