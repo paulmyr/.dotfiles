@@ -5,12 +5,34 @@
 ;; #                             #
 ;; ###############################
 
+;; Initialize package sources
+(require 'package)
+
+(setq package-archives '(("elpa" . "https://elpa.gnu.org/packages/")
+						 ("org" . "https://orgmode.org/elpa/")
+						 ("melpa" . "https://melpa.org/packages/")
+                         ))
+
+(package-initialize)
+
+(unless package-archive-contents
+(package-refresh-contents))
+
+
 (setq user-full-name "Paul Mayer"
       user-mail-address "p@mayer-zuffenhausen.de")
 
 (setq inhibit-startup-message t)        ;; thanks but no
 
 (set-face-attribute 'default nil :font "Comic Code Ligatures" :height 125)
+
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
+(tooltip-mode -1)
+(menu-bar-mode -1)
+(set-fringe-mode 10)
+(setq-default tab-width 4)
+(setq warning-minimum-level :emergency)
 
 ;; mac specific settings
 (when (eq system-type 'darwin)
@@ -28,20 +50,6 @@
   (setq visible-bell t)
   )
 
-
-;; Initialize package sources
-(require 'package)
-
-(setq package-archives '(("elpa" . "https://elpa.gnu.org/packages/")
-						 ("org" . "https://orgmode.org/elpa/")
-						 ("melpa" . "https://melpa.org/packages/")
-                         ))
-
-(package-initialize)
-
-(unless package-archive-contents
-(package-refresh-contents))
-
 ;; Make ESC quit prompts
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 ;; Since evil wants to use C-u
@@ -53,11 +61,6 @@
 
 (require 'use-package)
 (setq use-package-always-ensure t)
-
-(use-package undo-tree
-  :ensure t
-  :config
-  (global-undo-tree-mode))
 
 (use-package evil
   :init
@@ -87,6 +90,13 @@
   :config
   (evil-collection-init))
 
+(use-package undo-tree
+  :ensure t
+  :config
+  (global-undo-tree-mode))
+
+(add-hook 'evil-local-mode-hook 'turn-on-undo-tree-mode)
+
 (use-package ivy
   :diminish
   :bind (("C-s" . swiper)
@@ -106,8 +116,6 @@
   (ivy-mode 1))
 
 ;;; Spelling package
-;; (use-package aspell)
-(setq ispell-program-name "aspell")
 
 (use-package counsel
   :bind (("M-x" . counsel-M-x)
@@ -139,7 +147,6 @@
   :ensure t
   :init (doom-modeline-mode 1)
   :custom ((doom-modeline-height 15)))
-
 
 (use-package hydra)
 (defhydra hydra-text-scale (:timeout 4)
@@ -187,24 +194,7 @@
     "d."  '((lambda () (interactive) (dired "~/.dotfiles")) :which-key "dotfiles")
     "de"  '((lambda () (interactive) (dired "~/.emacs.d")) :which-key ".emacs.d")
 
-    "c"   '(org-capture :which-key "org capture menu")
-
-    "t"   '(:ignore t :which-key "terminal")
-    "tt"   '(vterm :which-key "open vterm buffer")
-    "tv"   '(vterm-other-window :which-key "vterm buffer in new window")
-
-    "b"   '(:ignore t :which-key "buffer")
-    "bk"  '((lambda () (interactive) (kill-current-buffer)) :which-key "kill current buffer")
-    "bb"  '((lambda () (interactive) (counsel-ibuffer)) :which-key "choose buffer")
-    "bo"  '(evil-window-next :which-key "Next Window")
-
     "e"   '(ebib :which-key "ebib")
-
-    "p"   '(:ignore t :which-key "projetile")
-    "pp"  '((lambda () (interactive) (projectile-switch-project)) :which-key "switch project")
-    "po"  '((lambda () (interactive) (projectile-switch-open-project)) :which-key "switch open project")
-
-	"r"   '(elfeed :which-key "elfeed")
     ))
 
 
@@ -250,28 +240,17 @@
 (use-package ebib)
 (require 'ebib)
 
-(global-set-key (kbd "C-c e") 'ebib)
-(global-set-key (kbd "C-c C-e") 'ebib)
-(which-key-add-key-based-replacements
-  "C-c e" "ebib")
-(which-key-add-key-based-replacements
-  "C-c C-e" "ebib")
+;; (global-set-key (kbd "C-c e") 'ebib)
+;; (global-set-key (kbd "C-c C-e") 'ebib)
+;; (which-key-add-key-based-replacements
+;;   "C-c e" "ebib")
+;; (which-key-add-key-based-replacements
+;;   "C-c C-e" "ebib")
 (setq ebib-preload-bib-files '("~/Projects/bthesis/paperkasten.bib"))
 (setq bibtex-completion-bibliography '("~/Projects/bthesis/paperkasten.bib"))
 
-;;; Spelling
-;; (after! ispell
-;;   (setq ispell-really-hunspell t
-;;         ispell-program-name "hunspell"
-;;         ispell-dictionary "en_US,de_DE")
-;;   (ispell-set-spellchecker-params)
-;;   (ispell-hunspell-add-multi-dic "en_US,de_DE"))
-
-
 ;; DASHBOARD
 ;; Getting pretty icons 
-(use-package all-the-icons)
-
 (use-package dashboard
   :after (all-the-icons)
   :ensure t
@@ -290,17 +269,10 @@
 ;; :bind (("C-c r" . dashboard-refresh-buffer)	
 ;;      ("C-c C-r" . dashboard-refresh-buffer))
 
-(define-key dashboard-mode-map (kbd "C-c r") 'dashboard-refresh-buffer)
 (define-key dashboard-mode-map (kbd "C-c C-r") 'dashboard-refresh-buffer)
 
 (which-key-add-key-based-replacements
-  "C-c r" "refresh dashboard")
-
-(which-key-add-key-based-replacements
   "C-c C-r" "refresh dashboard")
-
-(setq custom-file "~/.emacs.d/custom.el")
-;; (load custom-file :noerror)
 
 (defun efs/org-mode-setup ()
   (org-indent-mode)
@@ -335,12 +307,6 @@
   (set-face-attribute 'variable-pitch nil :font "Comic Code Ligatures")
   )
 
-(use-package tex
-  :ensure auctex
-  :config
-  (setq TeX-auto-save t)
-  (setq TeX-parse-self t))
-
 (use-package org
   :hook
   (org-mode . efs/org-mode-setup)
@@ -359,27 +325,6 @@
   (setq org-refile-targets
 		'(("archive.org" :maxlevel . 1)))
 
-  (advice-add 'org-refile :after 'org-save-all-org-buffers)
-  
-  (setq org-agenda-files
-		'("~/Documents/org/tasks.org"
-		  "~/Projects/bthesis/motivation.org"))
-  (setq org-todo-keywords
-		'((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!)")))
-
-  (setq org-capture-templates
-		'(("t" "Tasks")
-		  ("tt" "Task" entry (file+olp "~/Documents/org/tasks.org" "Inbox")
-		   "* TODO %?\n %U\n %i" :empty-lines 1)
-		  ("tl" "Task with link to current location" entry (file+olp "~/Documents/org/tasks.org" "Inbox")
-		   "* TODO %?\n %U\n %a\n %i" :empty-lines 1)
-
-		  ("i" "Ideas")
-		  ("ii" "Idea" entry (file+olp "~/Documents/org/ideas.org" "Ideas")
-		   "* %?\n %U\n %i" :empty-lines 1)
-		  ("il" "Idea with Link to current location" entry (file+olp "~/Documents/org/ideas.org" "Ideas")
-		   "* %?\n %U\n %a\n %i" :empty-lines 1)))
-  
   (efs/org-font-setup))
 
 (use-package org-bullets
@@ -389,130 +334,19 @@
   (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
   ;; Show hidden emphasis markers
 
-(use-package org-appear
-  :hook (org-mode . org-appear-mode))
+(use-package tex
+  :ensure auctex
+  :config
+  (setq TeX-auto-save t)
+  (setq TeX-parse-self t))
 
-(with-eval-after-load 'ox-latex
-  (add-to-list 'org-latex-classes
-	       '("mpartcl" "\\documentclass{mpartcl}
-                  [NO-DEFAULT-PACKAGES]
-                  [EXTRA]"
-    ("\\section{%s}" . "\\section*{%s}")
-    ("\\subsection{%s}" . "\\subsection*{%s}")
-    ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-    ("\\paragraph{%s}" . "\\paragraph*{%s}")
-    ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
-
-(require 'org-inlinetask)
-
-(use-package ob-kotlin)
-(use-package ob-typescript)
-(use-package ob-latex-as-png)
-
-(setq org-cite-export-processors '((latex biblatex) (t csl)))
-;; (setq org-cite-export-processors '((t csl)))
-;; (setq org-cite-csl-styles-dir "/home/mayerpa/.csl-citestyles/")
-
-(use-package org-ref
-   :ensure nil
-   :init
-	(require 'bibtex)
-	(require 'oc-biblatex)
-	(setq bibtex-autokey-year-length 4
-		bibtex-autokey-name-year-separator "-"
-		bibtex-autokey-year-title-separator "-"
-		bibtex-autokey-titleword-separator "-"
-		bibtex-autokey-titlewords 2
-		bibtex-autokey-titlewords-stretch 1
-		bibtex-autokey-titleword-length 5))
-
-(use-package ox-reveal)
-(setq org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js")
-(setq org-reveal-reveal-js-version 4)
-(setq org-reveal-theme "serif")
-
-(define-key org-mode-map (kbd "C-c ]") 'org-ref-insert-link-hydra/body)
-(define-key bibtex-mode-map (kbd "C-c b") 'org-ref-bibtex-hydra/body)
-(define-key org-mode-map (kbd "C-c [") 'org-cite-insert)
-(define-key evil-normal-state-map (kbd "C-c &") 'org-mark-ring-goto)
-(define-key evil-normal-state-map (kbd "C-c %") 'org-mark-ring-push)
-
-(defun org-insert-inline-image (file) (interactive "f") (insert (insert (format "[[%s]]" file))))
-(define-key org-mode-map (kbd "C-c C-i") 'org-insert-inline-image)
-
-;;(setq org-publish-project-alist
-;;      '(("blog-content"
-;;         :base-directory "~/Projects/blog/posts"
-;;         :html-extension "html"
-;;         :base-extension "org"
-;;         :publishing-directory "~/Projects/blog/publish"
-;;         :publishing-function (org-html-publish-to-html)
-;;         :recursive t                     ; descend into sub-folders?
-;;         :section-numbers nil             ; don't create numbered sections
-;;         :with-toc nil                    ; don't create a table of contents
-;;	 :with-latex t                    ; do use MathJax for awesome formulas!
-;;	 :html-link-home "/home/mayerpa/Projects/blog/"
-;;         ;;:html-head-extra "<!-- Latest compiled and minified CSS --> <link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css\" integrity=\"sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu\" crossorigin=\"anonymous\">"              ; extra <head> entries go here
-;;         :html-preamble ""                ; this stuff is put before your post
-;;         :html-postamble nil              ; this stuff is put after your post
-;;	 :author nil
-;;	 :timestamp nil
-;;	 :todo-keywords nil
-;;	 :headline-levels 4
-;;	 :export-with-tags nil
-;;	 :table-of-contents nil
-;;)))
-
-(use-package flymake)
 
 (use-package yasnippet
   :config
   (setq yas-snippet-dirs '("~/.emacs.yasnippets"))
   (yas-global-mode 1))
 
-(use-package lsp-mode
-  :commands (lsp lsp-deferred)
-  :init
-  (setq lsp-keymap-prefix "C-c l")
-  :config
-  (lsp-enable-which-key-integration t))
-
-(use-package typescript-mode
-  :mode "\\.ts\\'"
-  :hook (typescript-mode . lsp-deferred)
-  :config
-  (setq typescript-indent-level 2))
-
-(use-package lsp-java
-  :mode "\\.java\\'"
-  :hook (java-mode . lsp-deferred))
-
-(use-package elfeed
-  :config
-  ;; Somewhere in your .emacs file
-  (setq elfeed-feeds
-		'("http://arxiv.org/rss/cs.CL"
-		  "http://arxiv.org/rss/cs.LG"))
-  (global-set-key (kbd "C-x w") 'elfeed))
-
-(use-package vterm
-  :commands vterm
-  :config
-  (setq vterm-shell "zsh")
-  (setq vterm-max-scrollback 10000))
-
 (use-package ein)
 
-;; spell checking
-(dolist (hook '(text-mode-hook org-mode-hook))
-      (add-hook hook (lambda () (flyspell-mode 1))))
-(dolist (hook '(change-log-mode-hook log-edit-mode-hook))
-      (add-hook hook (lambda () (flyspell-mode -1))))
-
-(scroll-bar-mode -1)
-(tool-bar-mode -1)
-(tooltip-mode -1)
-(menu-bar-mode -1)
-(set-fringe-mode 10)
-(setq-default tab-width 4)
-(setq warning-minimum-level :emergency)
+(setq custom-file "~/.emacs.d/custom.el")
+;; (load custom-file :noerror)

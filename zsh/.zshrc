@@ -89,8 +89,10 @@ source $ZSH/oh-my-zsh.sh
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-alias zshconfig="vim ~/.zshrc"
+alias zshconfig="nvim ~/.zshrc"
 alias zshreload="source ~/.zshrc"
+
+alias vi="nvim"
 
 # only for openSuse systems
 #alias zypup="sudo zypper up"
@@ -101,6 +103,12 @@ alias zshreload="source ~/.zshrc"
 #alias zypse="zypper se"
 
 # TODO: replace with git aliases
+#
+plugins=(
+    git
+    colored-man-pages
+)
+
 alias gst="git status"
 alias gnuke="git restore ."
 alias gaddp="git add -p"
@@ -153,3 +161,5 @@ export PATH="$PATH:/Users/paulmayer/Library/Python/3.8/bin"
 export PATH="/opt/homebrew/opt/python@3.10/bin:$PATH"
 
 alias emacs='$(/Applications/Emacs.app/Contents/MacOS/Emacs "$@")'
+
+bindkey -v
