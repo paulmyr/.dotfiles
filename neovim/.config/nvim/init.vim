@@ -11,6 +11,7 @@ Plug 'sheerun/vim-polyglot' " Better syntax-highlighting for filetypes in vim
 Plug 'neoclide/coc.nvim', {'branch': 'release'} " Intellisense engine
 Plug 'jiangmiao/auto-pairs' " Auto-close braces and scopes
 Plug 'arcticicestudio/nord-vim'
+Plug 'Mofiqul/dracula.nvim'
 Plug 'vim-airline/vim-airline'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
@@ -18,7 +19,7 @@ call plug#end()
 
 syntax on
 filetype plugin indent on
-colorscheme industry
+colorscheme dracula
 
 set autoindent
 set number relativenumber
@@ -34,7 +35,7 @@ set nobackup            	" Don't create annoying backup files
 set encoding=utf-8              " Set default encoding to UTF-8
 set autowrite                   " Automatically save before :next, :make etc.
 set autoread                    " Automatically reread changed files without asking me anything
-set laststatus=2
+set laststatus=1
 set fileformats=unix,dos,mac    " Prefer Unix over Windows over OS 9 formats
 set showmatch                   " Do not show matching brackets by flickering
 set incsearch                   " Shows the match while typing
@@ -45,7 +46,7 @@ set magic               " Use 'magic' patterns (extended regular expressions).
 
 nnoremap <C-x><C-p> :Files<Cr>
 nnoremap <C-x><C-b> :Buffers<Cr>
+map <C-x><C-n> :NERDTreeToggle<CR>
 
-map <C-n> :NERDTreeToggle<CR>
 let NERDTreeShowHidden=1 " Show hidden files in NerdTree buffer.
 
