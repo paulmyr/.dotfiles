@@ -37,7 +37,7 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
 
-exec --no-startup-id feh --bg-scale ~/Pictures/wallpaper/nZBJAsK.jpg
+exec --no-startup-id feh --bg-scale ~/Pictures/wallpaper/lofi_hunting.jpeg
 
 exec --no-startup-id insync start
 
@@ -52,7 +52,7 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec konsole
+bindsym $mod+Return exec i3-sensible-terminal
 
 # kill focused window
 bindsym $mod+q kill
@@ -94,7 +94,7 @@ bindsym $mod+Shift+Right move right
 # bindsym $mod+h split h
 
 # split in vertical orientation
-# bindsym $mod+v split v
+bindsym $mod+v split toggle
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
@@ -131,6 +131,18 @@ set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
+set $ws11 "11"
+set $ws12 "12"
+set $ws13 "13"
+set $ws14 "14"
+set $ws15 "15"
+set $ws16 "16"
+set $ws17 "17"
+set $ws18 "18"
+set $ws19 "19"
+set $ws20 "20"
+set $ws21 "21"
+set $ws22 "22"
 
 # switch to workspace
 bindsym $mod+1 workspace number $ws1
@@ -143,6 +155,18 @@ bindsym $mod+7 workspace number $ws7
 bindsym $mod+8 workspace number $ws8
 bindsym $mod+9 workspace number $ws9
 bindsym $mod+0 workspace number $ws10
+bindsym $mod+F1 workspace number $ws11
+bindsym $mod+F2 workspace number $ws12
+bindsym $mod+F3 workspace number $ws13
+bindsym $mod+F4 workspace number $ws14
+bindsym $mod+F5 workspace number $ws15
+bindsym $mod+F6 workspace number $ws16
+bindsym $mod+F7 workspace number $ws17
+bindsym $mod+F8 workspace number $ws18
+bindsym $mod+F9 workspace number $ws19
+bindsym $mod+F10 workspace number $ws20
+bindsym $mod+F11 workspace number $ws21
+bindsym $mod+F12 workspace number $ws22
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace number $ws1
@@ -155,6 +179,18 @@ bindsym $mod+Shift+7 move container to workspace number $ws7
 bindsym $mod+Shift+8 move container to workspace number $ws8
 bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
+bindsym $mod+Shift+F1 move container to workspace number $ws11
+bindsym $mod+Shift+F2 move container to workspace number $ws12
+bindsym $mod+Shift+F3 move container to workspace number $ws13
+bindsym $mod+Shift+F4 move container to workspace number $ws14
+bindsym $mod+Shift+F5 move container to workspace number $ws15
+bindsym $mod+Shift+F6 move container to workspace number $ws16
+bindsym $mod+Shift+F7 move container to workspace number $ws17
+bindsym $mod+Shift+F8 move container to workspace number $ws18
+bindsym $mod+Shift+F9 move container to workspace number $ws19
+bindsym $mod+Shift+F10 move container to workspace number $ws20
+bindsym $mod+Shift+F11 move container to workspace number $ws21
+bindsym $mod+Shift+F12 move container to workspace number $ws22
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -190,7 +226,7 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-set $Locker i3lock -e -t -i ~/Pictures/wallpaper/Tree.png && sleep 0
+set $Locker i3lock -u -e -i ~/Pictures/wallpaper/lock.png -c 000000 && sleep 0
 
 set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
 mode "$mode_system" {
@@ -207,9 +243,14 @@ mode "$mode_system" {
 }
 
 bindsym $mod+End mode "$mode_system"
-# bindsym $mod+Shift+odiaeresis exec --no-startup-id i3lock -i ~/Pictures/wallpaper/Staircase.png
-bindsym $mod+Shift+odiaeresis exec convert ~/Pictures/wallpaper/Staircase.jpg RGB:- | i3lock --raw 2560x1440:rgb --image /dev/stdin
-bindsym $mod+Shift+semicolon exec convert ~/Pictures/wallpaper/Staircase.jpg RGB:- | i3lock --raw 2560x1440:rgb --image /dev/stdin
+
+## German layout
+bindsym $mod+odiaeresis exec --no-startup-id $Locker
+bindsym $mod+Shift+odiaeresis exec --no-startup-id $Locker
+
+## US layout
+bindsym $mod+semicolon exec --no-startup-id $Locker
+bindsym $mod+Shift+semicolon exec --no-startup-id $Locker
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
