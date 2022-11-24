@@ -8,18 +8,17 @@ Plug 'tmhedberg/matchit' " Switch to the begining and the end of a block by pres
 Plug 'scrooloose/nerdtree' " A Tree-like side bar for better navigation
 Plug 'vim-airline/vim-airline-themes'
 Plug 'sheerun/vim-polyglot' " Better syntax-highlighting for filetypes in vim
-Plug 'neoclide/coc.nvim', {'branch': 'release'} " Intellisense engine
 Plug 'jiangmiao/auto-pairs' " Auto-close braces and scopes
 Plug 'arcticicestudio/nord-vim'
 Plug 'Mofiqul/dracula.nvim'
 Plug 'vim-airline/vim-airline'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
 
 call plug#end()
 
 syntax on
 filetype plugin indent on
-colorscheme dracula
+colorscheme catppuccin-frappe
 
 set autoindent
 set number relativenumber
