@@ -32,34 +32,37 @@ exec --no-startup-id dex --autostart --environment i3
 # Picom
 exec_always --no-startup-id picom &
 
+# set $Locker i3lock -e -i ~/Pictures/wallpaper/lock.png -c 232634 && sleep 0
+# set $Locker i3lockr --blur 25 -- --nofork --ignore-empty-password
+set $Locker ~/.config/i3/lock.sh
+
 # The combination of xss-lock, nm-applet and pactl is a popular choice, so
 # they are included here as an example. Modify as you see fit.
 
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+exec --no-startup-id xss-lock --transfer-sleep-lock -- $Locker
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
-# exec --no-startup-id nm-applet
+
+exec --no-startup-id nm-applet
 
 exec --no-startup-id feh --bg-scale ~/Pictures/wallpaper/cat_waves.png
 
 exec --no-startup-id insync start
 
-# Use pactl to adjust volume in PulseAudio.
-set $refresh_i3status killall -SIGUSR1 i3status
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
-
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
+#map capslock to ctrl
+exec --no-startup-id xmodmap ~/.xmodmap
+
 # start a terminal
 bindsym $mod+Return exec alacritty
-bindsym $mod+Shift+Return exec i3-sensible-terminal
+bindsym $mod+Shift+Return exec alacritty --class floating
+
+for_window [instance="^floating$"] floating enable
 
 # kill focused window
 bindsym $mod+q kill
@@ -69,6 +72,16 @@ bindsym $mod+q kill
 # A more modern dmenu replacement is rofi:
 bindsym $mod+d exec --no-startup-id rofi -show drun
 
+# Screenshots source: https://gist.github.com/dianjuar/ee774561a8bc02b077989bc17424a19f
+## Screenshots to File
+bindsym Print exec --no-startup-id maim "/home/$USER/Pictures/$(date)"
+bindsym $mod+Print exec --no-startup-id maim --window $(xdotool getactivewindow) "/home/$USER/Pictures/$(date)"
+bindsym Shift+Print exec --no-startup-id maim --select "/home/$USER/Pictures/$(date)"
+
+## Clipboard Screenshots
+bindsym Ctrl+Print exec --no-startup-id maim | xclip -selection clipboard -t image/png
+bindsym Ctrl+$mod+Print exec --no-startup-id maim --window $(xdotool getactivewindow) | xclip -selection clipboard -t image/png
+bindsym Ctrl+Shift+Print exec --no-startup-id maim --select | xclip -selection clipboard -t image/png
 
 # There also is i3-dmenu-desktop which only displays applications shipping a
 # .desktop file. It is a wrapper around dmenu, so you need that installed.
@@ -181,18 +194,20 @@ bindsym $mod+Shift+0 move container to workspace number $ws10
 assign [class="^thunderbird$"] 6
 assign [class="^Signal$"] 7
 assign [class="^TelegramDesktop$"] 7
-assign [class="^Spotify$"] 8
 assign [class="^discord$"] 9
 assign [class="^KeePassXC$"] 10
 
 for_window [class="^thunderbird$" instance="^Msgcompose$"] floating enable
+for_window [class="^Steam$" title="^Steam - News$"] floating enable
+for_window [class="^Steam$" title="^Friends List$"] floating enable
+for_window [class="^Spotify$"] floating enable
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+q exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+# bindsym $mod+Shift+q exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -220,10 +235,6 @@ mode "resize" {
 }
 
 bindsym $mod+r mode "resize"
-
-# set $Locker i3lock -e -i ~/Pictures/wallpaper/lock.png -c 232634 && sleep 0
-# set $Locker i3lockr --blur 25 -- --nofork --ignore-empty-password
-set $Locker ~/.config/i3/lock.sh
 
 set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
 mode "$mode_system" {
@@ -271,3 +282,4 @@ hide_edge_borders none
 
 # use ploybar instead
 exec --no-startup-id ~/.config/polybar/launch.sh &
+
