@@ -1,51 +1,40 @@
-" Plugins here
-call plug#begin('~/.config/nvim/plugged')
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                                                                                                                            "
+"   iiii                     iiii          tttt                                             iiii                             "
+"  i::::i                   i::::i      ttt:::t                                            i::::i                            "
+"   iiii                     iiii       t:::::t                                             iiii                             "
+"                                       t:::::t                                                                              "
+" iiiiiiinnnn  nnnnnnnn    iiiiiiittttttt:::::ttttttt            vvvvvvv           vvvvvvviiiiiii    mmmmmmm    mmmmmmm      "
+" i:::::in:::nn::::::::nn  i:::::it:::::::::::::::::t             v:::::v         v:::::v i:::::i  mm:::::::m  m:::::::mm    "
+"  i::::in::::::::::::::nn  i::::it:::::::::::::::::t              v:::::v       v:::::v   i::::i m::::::::::mm::::::::::m   " 
+"  i::::inn:::::::::::::::n i::::itttttt:::::::tttttt               v:::::v     v:::::v    i::::i m::::::::::::::::::::::m   "
+"  i::::i  n:::::nnnn:::::n i::::i      t:::::t                      v:::::v   v:::::v     i::::i m:::::mmm::::::mmm:::::m   "
+"  i::::i  n::::n    n::::n i::::i      t:::::t                       v:::::v v:::::v      i::::i m::::m   m::::m   m::::m   "
+"  i::::i  n::::n    n::::n i::::i      t:::::t                        v:::::v:::::v       i::::i m::::m   m::::m   m::::m   "
+"  i::::i  n::::n    n::::n i::::i      t:::::t    tttttt               v:::::::::v        i::::i m::::m   m::::m   m::::m   "
+" i::::::i n::::n    n::::ni::::::i     t::::::tttt:::::t                v:::::::v        i::::::im::::m   m::::m   m::::m   "
+" i::::::i n::::n    n::::ni::::::i     tt::::::::::::::t ......          v:::::v         i::::::im::::m   m::::m   m::::m   "
+" i::::::i n::::n    n::::ni::::::i       tt:::::::::::tt .::::.           v:::v          i::::::im::::m   m::::m   m::::m   "
+" iiiiiiii nnnnnn    nnnnnniiiiiiii         ttttttttttt   ......            vvv           iiiiiiiimmmmmm   mmmmmm   mmmmmm   "
+"                                                                                                                            "
+"                                                                                                                            "
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } " A fuzzy file finder
-Plug 'junegunn/fzf.vim'
-Plug 'scrooloose/nerdcommenter' " Comment/Uncomment tool
-Plug 'tmhedberg/matchit' " Switch to the begining and the end of a block by pressing %
-Plug 'scrooloose/nerdtree' " A Tree-like side bar for better navigation
-Plug 'vim-airline/vim-airline-themes'
-Plug 'sheerun/vim-polyglot' " Better syntax-highlighting for filetypes in vim
-Plug 'jiangmiao/auto-pairs' " Auto-close braces and scopes
-Plug 'arcticicestudio/nord-vim'
-Plug 'Mofiqul/dracula.nvim'
-Plug 'vim-airline/vim-airline'
-Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
+" Load plugins
+source ~/.config/nvim/plugins.vim
 
-call plug#end()
+" Plugin configurations
+source ~/.config/nvim/plug-config/lsp-config.vim
+source ~/.config/nvim/plug-config/nerdtree-config.vim
+source ~/.config/nvim/plug-config/fzf-config.vim
+luafile ~/.config/nvim/plug-config/compe-config.lua
+luafile ~/.config/nvim/plug-config/gitsigns-config.lua
 
-syntax on
-filetype plugin indent on
-colorscheme catppuccin-frappe
+" Language servers
+luafile ~/.config/nvim/lua/lsp/python-ls.lua
+luafile ~/.config/nvim/lua/lsp/latex-ls.lua
 
-set autoindent
-set number relativenumber
-set modeline
-set textwidth=0
-set splitbelow          " Horizontal split below current.
-set splitright          " Vertical split to right of current.
-set display+=lastline
-set showcmd                     " Show me what I'm typing
-set showmode                    " Show current mode.
-set noswapfile                  " Don't use swapfile
-set nobackup            	" Don't create annoying backup files
-set encoding=utf-8              " Set default encoding to UTF-8
-set autowrite                   " Automatically save before :next, :make etc.
-set autoread                    " Automatically reread changed files without asking me anything
-set laststatus=1
-set fileformats=unix,dos,mac    " Prefer Unix over Windows over OS 9 formats
-set showmatch                   " Do not show matching brackets by flickering
-set incsearch                   " Shows the match while typing
-set hlsearch                    " Highlight found searches
-set ignorecase
-set smartcase
-set magic               " Use 'magic' patterns (extended regular expressions).
-
-nnoremap <C-x><C-p> :Files<Cr>
-nnoremap <C-x><C-b> :Buffers<Cr>
-map <C-x><C-n> :NERDTreeToggle<CR>
-
-let NERDTreeShowHidden=1 " Show hidden files in NerdTree buffer.
+" Nvim config
+source ~/.config/nvim/config.vim
+luafile ~/.config/nvim/lua/keymaps.lua
 
