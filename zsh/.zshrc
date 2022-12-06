@@ -93,7 +93,7 @@ alias zshconfig="nvim ~/.zshrc"
 alias zshreload="source ~/.zshrc"
 
 alias vi="nvim"
-alias vim="nvim"
+# alias vim="nvim"
 
 # only for openSuse systems
 #alias zypup="sudo zypper up"
@@ -174,4 +174,8 @@ bindkey -v
 #display neofetch the fast way
 cat .nf 2> /dev/null
 setsid neofetch >| .nf
+
+export PATH="$PATH:$HOME/bin"
+setxkbmap -option ctrl:nocaps
+
 

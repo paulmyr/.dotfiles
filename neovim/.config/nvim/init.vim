@@ -33,6 +33,7 @@ luafile ~/.config/nvim/plug-config/gitsigns-config.lua
 " Language servers
 luafile ~/.config/nvim/lua/lsp/python-ls.lua
 luafile ~/.config/nvim/lua/lsp/latex-ls.lua
+luafile ~/.config/nvim/lua/lsp/lua-ls.lua
 
 " Nvim config
 source ~/.config/nvim/config.vim

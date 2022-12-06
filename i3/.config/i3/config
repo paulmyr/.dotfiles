@@ -55,8 +55,11 @@ exec --no-startup-id insync start
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
-#map capslock to ctrl
-exec --no-startup-id xmodmap ~/.xmodmap
+# Mouse steals focus
+focus_follows_mouse no
+
+# remap capslock to ctrl
+exec --no-startup-id setxkbmap -option ctrl:nocaps
 
 # start a terminal
 bindsym $mod+Return exec alacritty
@@ -201,6 +204,9 @@ for_window [class="^thunderbird$" instance="^Msgcompose$"] floating enable
 for_window [class="^Steam$" title="^Steam - News$"] floating enable
 for_window [class="^Steam$" title="^Friends List$"] floating enable
 for_window [class="^Spotify$"] floating enable
+
+# Workspace layouts:
+# exec --no-startup-id "i3-msg 'workspace 1; append_layout ~/.i3/workspaces/ws8.json'"
 
 # reload the configuration file
 bindsym $mod+Shift+c reload

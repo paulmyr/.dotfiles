@@ -25,6 +25,10 @@ keymap("n", "<C-j>", "<C-w>j", opts)
 keymap("n", "<C-k>", "<C-w>k", opts)
 keymap("n", "<C-l>", "<C-w>l", opts)
 
+-- Navigate Compe menu
+keymap('i', '<C-j>', 'pumvisible() ? "\\<C-n>" : "\\<C-j>"' , { noremap = true, expr=true })
+keymap('i', '<C-k>', 'pumvisible() ? "\\<C-p>" : "\\<C-k>"' , { noremap = true, expr=true })
+
 -- Resize with arrows
 keymap("n", "<C-Up>", ":resize +2<CR>", opts)
 keymap("n", "<C-Down>", ":resize -2<CR>", opts)
