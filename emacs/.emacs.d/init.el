@@ -107,109 +107,95 @@
 
 (add-hook 'evil-local-mode-hook 'turn-on-undo-tree-mode)
 
-;; Todo: Learn ivy or use helm
-(use-package ivy
-  :diminish
-  :bind (("C-s" . swiper)
-         :map ivy-minibuffer-map
-         ("TAB" . ivy-alt-done)	
-         ("C-l" . ivy-alt-done)
-         ("C-j" . ivy-next-line)
-         ("C-k" . ivy-previous-line)
-         :map ivy-switch-buffer-map
-         ("C-k" . ivy-previous-line)
-         ("C-l" . ivy-done)
-         ("C-d" . ivy-switch-buffer-kill)
-         :map ivy-reverse-i-search-map
-         ("C-k" . ivy-previous-line)
-         ("C-d" . ivy-reverse-i-search-kill))
-  :init
-  (ivy-mode 1))
+(use-package helm
+  :ensure t
+  :config
+  (helm-mode 1)
+  )
 
-;;; Spelling package
-(use-package counsel
-  :bind (("M-x" . counsel-M-x)
-	 ("C-x b" . counsel-ibuffer)
-	 ("C-x C-f" . counsel-find-file)
-	 :map minibuffer-local-map
-	 ("C-r" . 'counsel-minibuffer-histroy))
-  :config (setq ivy-initial-inputs-alist nil))
+;; Text Completion Framework
+(use-package company
+  :init (company-mode 1))
+(add-hook 'after-init-hook 'global-company-mode)
+
+;; Syntax Checking
+(use-package flycheck
+  :config (global-flycheck-mode)
+  )
 
 (use-package which-key
   :init (which-key-mode)
   :diminish (which-key-mode)
   :config (setq which-key-idle-delay 0.3))
 
-(use-package ivy-rich
-  :init (ivy-rich-mode 1))
-
-;; TODO: understand counsel
-(use-package counsel-projectile
-  :config (counsel-projectile-mode))
-
 (use-package all-the-icons)
 ;; then run this command once:
 ;; M-x all-the-icons-install-fonts
 
+(use-package autothemer
+  :ensure t)
+
+;; (setq custom-theme-directory "~/.emacs.d/themes/")
+;; (load-theme 'doom-catppuccin t)
+
 (use-package doom-themes
-  :init (load-theme 'doom-dracula t))
+  :ensure t
+  :config
+  ;; Global settings (defaults)
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  (load-theme 'doom-dracula t)
+  )
 
 (use-package doom-modeline
   :ensure t
   :init (doom-modeline-mode 1)
   :custom ((doom-modeline-height 15)))
 
-(use-package hydra)
-(defhydra hydra-text-scale (:timeout 4)
-    "scale text"
-    ("j" text-scale-increase "in")
-    ("k" text-scale-decrease "out")
-    ("w" nil "finished" :exit t))
+(use-package general)
+(general-create-definer mayerpa/control-leader
+ :prefix "C-c"
+ )
 
-(defhydra hydra-window-scale (:timeout 4)
-    "scale window"
-    ("<" evil-window-increase-width "increase width")
-    (">" evil-window-decrease-width "decrease width")
-    ("+" evil-window-increase-height "increase height")
-    ("-" evil-window-decrease-height "decrease height")
-("w" nil "finished" :exit t))
-
-(use-package general
-  :config
-  (general-create-definer mayerpa/leader-key
-			  :keymaps '(normal insert visual emacs)
-			  :prefix "M-SPC"
-			  :global-prefix "M-SPC")
-
-  (mayerpa/leader-key
-    "."  '(dired :which-key "find file")
+(general-create-definer mayerpa/space-leader
+  :states 'normal
+  :prefix "SPC"
+  )
+(mayerpa/control-leader
+ "p" '(projectile-command-map :which-key "projectile")
+ )
+(mayerpa/space-leader
+	"."  '(dired :which-key "find file")
 	"SPC" '(projectile-find-file :which-key "find file in project")
-    "fe"  '((lambda () (interactive) (find-file "~/.emacs.d/init.el")) :which-key "init file")
-    "fi"  '((lambda () (interactive) (find-file "~/.config/i3/config")) :which-key "i3 config")
-    "fz"  '((lambda () (interactive) (find-file "~/.zshrc")) :which-key "zsh config")
+	"fe"  '((lambda () (interactive) (find-file "~/.emacs.d/init.el")) :which-key "init file")
+	"f3"  '((lambda () (interactive) (find-file "~/.config/i3/config")) :which-key "i3 config")
+	"fi"  '((lambda () (interactive) (find-file "~/.config/nvim/init.vim")) :which-key "init.vim")
+	"fz"  '((lambda () (interactive) (find-file "~/.zshrc")) :which-key "zsh config")
 
-    "s"   '(:ignore t :which-key "themes")
-    "st"  '(counsel-load-theme :which-key "choose-theme")
-    "ss"  '(hydra-text-scale/body :which-key "scale text")
+	"m"   '(magit :which-key "magit")
 
-    "w"  '(hydra-window-scale/body :which-key "scale window")
+	"d"   '(:ignore t :which-key "dired")
+	"d."  '(dired :which-key "Here")
+	"dh"  '((lambda () (interactive) (dired "~")) :which-key "Home")
+	"dn"  '((lambda () (interactive) (dired "~/Documents")) :which-key "Documents")
+	"do"  '((lambda () (interactive) (dired "~/Downloads")) :which-key "Downloads")
+	"dp"  '((lambda () (interactive) (dired "~/Pictures")) :which-key "Pictures")
+	"dv"  '((lambda () (interactive) (dired "~/Videos")) :which-key "Videos")
+	"dd"  '((lambda () (interactive) (dired "~/.dotfiles")) :which-key "dotfiles")
+	"de"  '((lambda () (interactive) (dired "~/.emacs.d")) :which-key ".emacs.d")
+	)
 
-    "d"   '(:ignore t :which-key "dired")
-    "d."  '(dired :which-key "Here")
-    "dh"  '((lambda () (interactive) (dired "~")) :which-key "Home")
-    "dn"  '((lambda () (interactive) (dired "~/Documents")) :which-key "Documents")
-    "do"  '((lambda () (interactive) (dired "~/Downloads")) :which-key "Downloads")
-    "dp"  '((lambda () (interactive) (dired "~/Pictures")) :which-key "Pictures")
-    "dv"  '((lambda () (interactive) (dired "~/Videos")) :which-key "Videos")
-    "dd"  '((lambda () (interactive) (dired "~/.dotfiles")) :which-key "dotfiles")
-    "de"  '((lambda () (interactive) (dired "~/.emacs.d")) :which-key ".emacs.d")
+(global-set-key (kbd "C-x b") 'helm-buffers-list)
+(global-set-key (kbd "C-x r b") 'helm-bookmarks)
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
+(global-set-key (kbd "C-s") 'helm-occur)
+(global-set-key (kbd "M-x") 'helm-M-x)
 
-;    "e"   '(ebib :which-key "ebib") ;;Todo: learn and configure
-    ))
+(evil-define-key 'insert helm-map (kbd "C-k") 'helm-previous-line)
+(evil-define-key 'insert helm-map (kbd "C-j") 'helm-next-line)
 
 ;; Set Emacs state modes
 (dolist (mode '(custom-mode
-		dashboard-mode
 		eshell-mode
 		git-rebase-mode
 		term-mode))
@@ -223,106 +209,26 @@
   (when (file-directory-p "~/Projects")
     (setq projectile-project-search-path '("~/Projects")))
   (setq projectile-switch-project-action #'projectile-dired)
-  :custom ((projectile-completion-system 'ivy))
-  :bind-keymap
-  ("C-c p" . projectile-command-map)
-  ("C-c C-p" . projectile-command-map))
-
-(which-key-add-key-based-replacements
-  "C-c p" "projectile")
-(which-key-add-key-based-replacements
-  "C-c C-p" "projectile")
+  :custom ((projectile-completion-system 'helm)))
 
 (use-package magit)
 
-;;; Ebib config
-(use-package ebib)
-(require 'ebib)
-(setq ebib-preload-bib-files '("~/Projects/bachelor_thesis/thesis/bibliography.bib"))
-(setq bibtex-completion-bibliography '("~/Projects/bachelor_thesis/thesis/bibliography.bib"))
-
 ;; DASHBOARD
-;; Getting pretty icons 
 (use-package dashboard
   :after (all-the-icons)
   :ensure t
-  :config
-  (dashboard-setup-startup-hook)
-  (setq dashboard-banner-logo-title "Greetings, traveler"
+  :config (dashboard-setup-startup-hook))
+
+(setq
+    dashboard-banner-logo-title "greetings, traveler"
 	dashboard-startup-banner 'logo
 	dashboard-center-content t
 	dashboard-set-heading-icons t
 	dashboard-set-file-icons t
 	dashboard-items '((recents . 5)
 					  (bookmarks . 5)
-                      (agenda . 5)
-					  (projects . 5))))
-
-;; :bind (("C-c r" . dashboard-refresh-buffer)	
-;;      ("C-c C-r" . dashboard-refresh-buffer))
-
-(define-key dashboard-mode-map (kbd "C-c C-r") 'dashboard-refresh-buffer)
-(which-key-add-key-based-replacements
-  "C-c C-r" "refresh dashboard")
-
-(defun efs/org-mode-setup ()
-  (org-indent-mode)
-  (variable-pitch-mode 1)
-  (visual-line-mode 1))
-
-(defun efs/org-font-setup ()
-  ;; Replace list hyphen with dot
-  (font-lock-add-keywords 'org-mode
-                          '(("^ *\\([-]\\) "
-                             (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
-
-  ;; Set faces for heading levels
-  (dolist (face '((org-level-1 . 1.2)
-                  (org-level-2 . 1.1)
-                  (org-level-3 . 1.05)
-                  (org-level-4 . 1.0)
-                  (org-level-5 . 1.1)
-                  (org-level-6 . 1.1)
-                  (org-level-7 . 1.1)
-                  (org-level-8 . 1.1)))
-    (set-face-attribute (car face) nil :font "Comic Code Ligatures" :weight 'regular :height (cdr face)))
-
-  ;; Ensure that anything that should be fixed-pitch in Org files appears that way
-  (set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
-  (set-face-attribute 'org-code nil   :inherit '(shadow fixed-pitch))
-  (set-face-attribute 'org-table nil   :inherit '(shadow fixed-pitch))
-  (set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
-  (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
-  (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
-  (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch)
-  (set-face-attribute 'variable-pitch nil :font "Comic Code Ligatures")
-  )
-
-(use-package org
-  :hook
-  (org-mode . efs/org-mode-setup)
-  (org-mode . (lambda () (display-line-numbers-mode -1)))
-
-  :config
-  (setq org-ellipsis " ▾")
-
-  (setq org-agenda-start-with-log-mode t)
-  (setq org-log-time 'time)
-  (setq org-log-into-drawer t)
-
-  (setq org-startup-with-inline-images t)
-  (setq org-image-actual-width nil)
-
-  (setq org-refile-targets
-		'(("archive.org" :maxlevel . 1)))
-
-  (efs/org-font-setup))
-
-(use-package org-bullets
-  :after org
-  :hook (org-mode . org-bullets-mode)
-  :custom
-  (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
+;;                      (agenda . 5)
+					  (projects . 5)))
 
 (use-package tex
   :ensure auctex
@@ -330,12 +236,13 @@
   (setq TeX-auto-save t)
   (setq TeX-parse-self t))
 
-(use-package yasnippet
-  :config
-  (setq yas-snippet-dirs '("~/.emacs.yasnippets"))
-  (yas-global-mode 1))
-
-(use-package ein)
+;; (use-package yasnippet
+;;   :config
+;;   (setq yas-snippet-dirs '("~/.emacs.yasnippets"))
+;;   (yas-global-mode 1))
 
 (setq custom-file "~/.emacs.d/custom.el")
 ;; (load custom-file :noerror)
+
+(provide 'init)
+;;; init.el ends here
