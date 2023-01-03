@@ -28,6 +28,8 @@ source ~/.config/nvim/plug-config/lsp-config.vim
 source ~/.config/nvim/plug-config/nerdtree-config.vim
 source ~/.config/nvim/plug-config/fzf-config.vim
 source ~/.config/nvim/plug-config/vimtex-config.vim
+source ~/.config/nvim/plug-config/start-screen.vim
+source ~/.config/nvim/plug-config/ultisnips.vim
 luafile ~/.config/nvim/plug-config/compe-config.lua
 luafile ~/.config/nvim/plug-config/gitsigns-config.lua
 

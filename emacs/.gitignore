@@ -1,0 +1,7 @@
+# No Need to store that shit
+.emacs.d/custom.el
+.emacs.d/eln-cache/
+.emacs.d/elpa/
+.emacs.d/projectile*
+.emacs.d/recentf
+.emacs.d/transient/

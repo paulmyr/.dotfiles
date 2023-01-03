@@ -20,10 +20,10 @@ vim.g.maplocalleader = " "
 
 -- Normal --
 -- Better window navigation
-keymap("n", "<C-h>", "<C-w>h", opts)
-keymap("n", "<C-j>", "<C-w>j", opts)
-keymap("n", "<C-k>", "<C-w>k", opts)
-keymap("n", "<C-l>", "<C-w>l", opts)
+-- keymap("n", "<C-h>", "<C-w>h", opts)
+-- keymap("n", "<C-j>", "<C-w>j", opts)
+-- keymap("n", "<C-k>", "<C-w>k", opts)
+-- keymap("n", "<C-l>", "<C-w>l", opts)
 
 -- Navigate Compe menu
 keymap('i', '<C-j>', 'pumvisible() ? "\\<C-n>" : "\\<C-j>"' , { noremap = true, expr=true })
@@ -45,4 +45,7 @@ keymap("n", "<leader>b", ":Buffers<Cr>", opts)
 
 -- nerdtree keybindings
 keymap("n", "<leader>n", ":NERDTreeToggle<Cr>", opts)
+
+-- startify
+keymap("n", "<leader>s", ":Startify<Cr>", opts)
 

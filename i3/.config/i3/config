@@ -48,7 +48,7 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- $Locker
 
 exec --no-startup-id nm-applet
 
-exec --no-startup-id feh --bg-scale ~/Pictures/wallpaper/cat_waves.png
+exec --no-startup-id feh --bg-scale ~/Pictures/wallpaper/evening-sky.png
 
 exec --no-startup-id insync start
 
@@ -160,14 +160,18 @@ set $ws9 "9"
 set $ws10 "10"
 set $ws11 "11"
 set $ws12 "12"
-set $ws13 "13"
-set $ws14 "14"
-set $ws15 "15"
-set $ws16 "16"
-set $ws17 "17"
-set $ws18 "18"
-set $ws19 "19"
-set $ws20 "20"
+set $ws13 "13: F1"
+set $ws14 "14: F2"
+set $ws15 "15: F3"
+set $ws16 "16: F4"
+set $ws17 "17: F5"
+set $ws18 "18: F6"
+set $ws19 "19: F7"
+set $ws20 "20: F8"
+set $ws21 "21: F9"
+set $ws22 "22: F10"
+set $ws23 "23: F11"
+set $ws24 "24: F12"
 
 workspace $ws1 output $DP0
 workspace $ws2 output $DP0
@@ -179,8 +183,8 @@ workspace $ws7 output $DP0
 workspace $ws8 output $DP0
 workspace $ws9 output $DP0
 workspace $ws10 output $DP0
-workspace $ws11 output $DP1
-workspace $ws12 output $DP1
+workspace $ws11 output $DP0
+workspace $ws12 output $DP0
 workspace $ws13 output $DP1
 workspace $ws14 output $DP1
 workspace $ws15 output $DP1
@@ -189,6 +193,10 @@ workspace $ws17 output $DP1
 workspace $ws18 output $DP1
 workspace $ws19 output $DP1
 workspace $ws20 output $DP1
+workspace $ws21 output $DP1
+workspace $ws22 output $DP1
+workspace $ws23 output $DP1
+workspace $ws24 output $DP1
 
 # switch to workspace
 bindsym $mod+1 workspace number $ws1
@@ -201,16 +209,20 @@ bindsym $mod+7 workspace number $ws7
 bindsym $mod+8 workspace number $ws8
 bindsym $mod+9 workspace number $ws9
 bindsym $mod+0 workspace number $ws10
-bindsym $mod+F1 workspace number $ws11
-bindsym $mod+F2 workspace number $ws12
-bindsym $mod+F3 workspace number $ws13
-bindsym $mod+F4 workspace number $ws14
-bindsym $mod+F5 workspace number $ws15
-bindsym $mod+F6 workspace number $ws16
-bindsym $mod+F7 workspace number $ws17
-bindsym $mod+F8 workspace number $ws18
-bindsym $mod+F9 workspace number $ws19
-bindsym $mod+F10 workspace number $ws20
+bindsym $mod+- workspace number $ws11
+bindsym $mod+= workspace number $ws12
+bindsym $mod+F1 workspace number $ws13
+bindsym $mod+F2 workspace number $ws14
+bindsym $mod+F3 workspace number $ws15
+bindsym $mod+F4 workspace number $ws16
+bindsym $mod+F5 workspace number $ws17
+bindsym $mod+F6 workspace number $ws18
+bindsym $mod+F7 workspace number $ws19
+bindsym $mod+F8 workspace number $ws20
+bindsym $mod+F9 workspace number $ws21
+bindsym $mod+F10 workspace number $ws22
+bindsym $mod+F11 workspace number $ws23
+bindsym $mod+F12 workspace number $ws24
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace number $ws1
@@ -223,23 +235,28 @@ bindsym $mod+Shift+7 move container to workspace number $ws7
 bindsym $mod+Shift+8 move container to workspace number $ws8
 bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
-bindsym $mod+Shift+F1 move container to workspace number $ws11
-bindsym $mod+Shift+F2 move container to workspace number $ws12
-bindsym $mod+Shift+F3 move container to workspace number $ws13
-bindsym $mod+Shift+F4 move container to workspace number $ws14
-bindsym $mod+Shift+F5 move container to workspace number $ws15
-bindsym $mod+Shift+F6 move container to workspace number $ws16
-bindsym $mod+Shift+F7 move container to workspace number $ws17
-bindsym $mod+Shift+F8 move container to workspace number $ws18
-bindsym $mod+Shift+F9 move container to workspace number $ws19
-bindsym $mod+Shift+F10 move container to workspace number $ws20
+bindsym $mod+Shift+- move container to workspace number $ws11
+bindsym $mod+Shift+= move container to workspace number $ws12
+bindsym $mod+Shift+F1 move container to workspace number $ws13
+bindsym $mod+Shift+F2 move container to workspace number $ws14
+bindsym $mod+Shift+F3 move container to workspace number $ws15
+bindsym $mod+Shift+F4 move container to workspace number $ws16
+bindsym $mod+Shift+F5 move container to workspace number $ws17
+bindsym $mod+Shift+F6 move container to workspace number $ws18
+bindsym $mod+Shift+F7 move container to workspace number $ws19
+bindsym $mod+Shift+F8 move container to workspace number $ws20
+bindsym $mod+Shift+F9 move container to workspace number $ws21
+bindsym $mod+Shift+F10 move container to workspace number $ws22
+bindsym $mod+Shift+F11 move container to workspace number $ws23
+bindsym $mod+Shift+F12 move container to workspace number $ws24
 
-assign [class="^thunderbird$"] 7
-assign [class="^Signal$"] 16
-assign [class="^TelegramDesktop$"] 17
-assign [class="^Spotify$"] 18
-assign [class="^discord$"] 19
-assign [class="^KeePassXC$"] 20 
+assign [class="^thunderbird$"] $ws9
+assign [class="^Mattermost$"] $ws21
+assign [class="^Signal$"] $ws22
+assign [class="^TelegramDesktop$"] $ws22
+assign [class="^Spotify$"] $ws20
+assign [class="^discord$"] $ws23
+assign [class="^KeePassXC$"] $ws24
 
 for_window [class="^thunderbird$" instance="^Msgcompose$"] floating enable
 for_window [class="^Steam$" title="^Steam - News$"] floating enable
@@ -264,10 +281,10 @@ mode "resize" {
         # Pressing right will grow the window’s width.
         # Pressing up will shrink the window’s height.
         # Pressing down will grow the window’s height.
-        bindsym h resize shrink width 25 px or 10 ppt
-        bindsym j resize grow height 25 px or 10 ppt
-        bindsym k resize shrink height 25 px or 10 ppt
-        bindsym l resize grow width 25 px or 10 ppt
+        bindsym h resize shrink width 12 px or 5 ppt
+        bindsym j resize grow height 12 px or 5 ppt
+        bindsym k resize shrink height 12 px or 5 ppt
+        bindsym l resize grow width 12 px or 5 ppt
 
         # same bindings, but for the arrow keys
         bindsym Left resize shrink width 25 px or 10 ppt
