@@ -34,6 +34,17 @@
 (setq-default tab-width 4)
 (setq warning-minimum-level :emergency)
 
+(global-display-line-numbers-mode)           ;; line numbers
+(setq display-line-numbers-type 'relative)   ;; relative line numbers
+
+;; disable line numbers for:
+(dolist (mode '(org-mode-hook
+		term-mode-hook
+		doc-view-mode-hook
+		eshell-mode-hook))
+  (add-hook mode (lambda () (display-line-numbers-mode 0))))
+
+
 ;; mac specific settings
 (when (eq system-type 'darwin)
   (setq mac-right-option-modifier 'none)
@@ -69,10 +80,9 @@
   (setq evil-want-C-u-scroll t)
   (setq evil-undo-system 'undo-tree)
   (setq evil-search-module 'evil-search)
+  (setq evil-want-C-u-scroll t)
   :config
   (evil-mode 1)                           ;; thanks but yes
-  (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
-  (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
   ;; use visual line motions even when not in visual line mode buffers
   ;; (evil-global-set-key 'motion "j" 'evil-next-visual-line)           ;; changes behaviour of y 2 j" to "y 1 j" which kinda sucks...
   ;; (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
@@ -87,8 +97,8 @@
 (use-package evil-collection
   :after evil
   :ensure t
-  :config
-  (evil-collection-init))
+  :custom (evil-collection-setup-minibuffer t)
+  :init (evil-collection-init))
 
 (use-package undo-tree
   :ensure t
@@ -97,6 +107,7 @@
 
 (add-hook 'evil-local-mode-hook 'turn-on-undo-tree-mode)
 
+;; Todo: Learn ivy or use helm
 (use-package ivy
   :diminish
   :bind (("C-s" . swiper)
@@ -116,7 +127,6 @@
   (ivy-mode 1))
 
 ;;; Spelling package
-
 (use-package counsel
   :bind (("M-x" . counsel-M-x)
 	 ("C-x b" . counsel-ibuffer)
@@ -133,6 +143,7 @@
 (use-package ivy-rich
   :init (ivy-rich-mode 1))
 
+;; TODO: understand counsel
 (use-package counsel-projectile
   :config (counsel-projectile-mode))
 
@@ -184,30 +195,17 @@
     "w"  '(hydra-window-scale/body :which-key "scale window")
 
     "d"   '(:ignore t :which-key "dired")
-    "dd"  '(dired :which-key "Here")
     "d."  '(dired :which-key "Here")
     "dh"  '((lambda () (interactive) (dired "~")) :which-key "Home")
     "dn"  '((lambda () (interactive) (dired "~/Documents")) :which-key "Documents")
     "do"  '((lambda () (interactive) (dired "~/Downloads")) :which-key "Downloads")
     "dp"  '((lambda () (interactive) (dired "~/Pictures")) :which-key "Pictures")
     "dv"  '((lambda () (interactive) (dired "~/Videos")) :which-key "Videos")
-    "d."  '((lambda () (interactive) (dired "~/.dotfiles")) :which-key "dotfiles")
+    "dd"  '((lambda () (interactive) (dired "~/.dotfiles")) :which-key "dotfiles")
     "de"  '((lambda () (interactive) (dired "~/.emacs.d")) :which-key ".emacs.d")
 
-    "e"   '(ebib :which-key "ebib")
+;    "e"   '(ebib :which-key "ebib") ;;Todo: learn and configure
     ))
-
-
-(global-display-line-numbers-mode)             ;; line numbers
-(setq display-line-numbers-type 'relative)   ;; relative line numbers
-
-;; disable line numbers for:
-(dolist (mode '(org-mode-hook
-		term-mode-hook
-		doc-view-mode-hook
-		eshell-mode-hook))
-  (add-hook mode (lambda () (display-line-numbers-mode 0))))
-
 
 ;; Set Emacs state modes
 (dolist (mode '(custom-mode
@@ -217,7 +215,7 @@
 		term-mode))
 (add-to-list 'evil-emacs-state-modes mode))
 
-
+;; TODO; learn projectile
 (use-package projectile
   :diminish projectile-mode
   :config (projectile-mode)
@@ -235,19 +233,13 @@
 (which-key-add-key-based-replacements
   "C-c C-p" "projectile")
 
+(use-package magit)
 
 ;;; Ebib config
 (use-package ebib)
 (require 'ebib)
-
-;; (global-set-key (kbd "C-c e") 'ebib)
-;; (global-set-key (kbd "C-c C-e") 'ebib)
-;; (which-key-add-key-based-replacements
-;;   "C-c e" "ebib")
-;; (which-key-add-key-based-replacements
-;;   "C-c C-e" "ebib")
-(setq ebib-preload-bib-files '("~/Projects/bthesis/paperkasten.bib"))
-(setq bibtex-completion-bibliography '("~/Projects/bthesis/paperkasten.bib"))
+(setq ebib-preload-bib-files '("~/Projects/bachelor_thesis/thesis/bibliography.bib"))
+(setq bibtex-completion-bibliography '("~/Projects/bachelor_thesis/thesis/bibliography.bib"))
 
 ;; DASHBOARD
 ;; Getting pretty icons 
@@ -270,7 +262,6 @@
 ;;      ("C-c C-r" . dashboard-refresh-buffer))
 
 (define-key dashboard-mode-map (kbd "C-c C-r") 'dashboard-refresh-buffer)
-
 (which-key-add-key-based-replacements
   "C-c C-r" "refresh dashboard")
 
@@ -332,14 +323,12 @@
   :hook (org-mode . org-bullets-mode)
   :custom
   (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
-  ;; Show hidden emphasis markers
 
 (use-package tex
   :ensure auctex
   :config
   (setq TeX-auto-save t)
   (setq TeX-parse-self t))
-
 
 (use-package yasnippet
   :config

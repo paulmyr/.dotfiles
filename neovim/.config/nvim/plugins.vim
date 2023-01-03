@@ -27,8 +27,13 @@ Plug 'vim-airline/vim-airline'
 
 Plug 'lervag/vimtex'
 
+Plug 'sirver/ultisnips'
+
 " Git informations
 Plug 'lewis6991/gitsigns.nvim'
+
+" Start screen and session management
+Plug 'mhinz/vim-startify'
 
 call plug#end()
 

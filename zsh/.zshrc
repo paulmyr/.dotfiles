@@ -105,6 +105,7 @@ alias vi="nvim"
 
 # TODO: replace with git aliases
 #
+
 plugins=(
     git
     colored-man-pages
@@ -121,6 +122,17 @@ alias python="python3"
 alias gnuke="git restore ."
 
 alias UNI="cd ~/Documents/university/"
+
+alias denv="conda deactivate"
+
+function aenv() {
+    if [ -n "$1" ]
+    then
+        conda activate "$1"
+    else
+        echo "please specify environment"
+    fi
+}
 
 # Uncomment when discord is installed
 # 2>&1 redirects stderr to stdout
@@ -166,16 +178,21 @@ function rswu() {
 #
 # alias emacs='$(/Applications/Emacs.app/Contents/MacOS/Emacs "$@")'
 #
-#
 ##############################################################################
 
 bindkey -v
 
-#display neofetch the fast way
-cat .nf 2> /dev/null
-setsid neofetch >| .nf
+# display neofetch the fast way
+# cat $HOME/.nf 2> /dev/null
+setsid neofetch >| $HOME/.nf
 
 export PATH="$PATH:$HOME/bin"
 setxkbmap -option ctrl:nocaps
 
+fnlock(){
+    echo 0 | sudo tee /sys/module/hid_apple/parameters/fnmode
+}
+
+export PATH=$PATH:/home/palu/.spicetify
+export EDITOR=/usr/bin/nvim
 
