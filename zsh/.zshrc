@@ -123,8 +123,9 @@ alias gnuke="git restore ."
 
 alias UNI="cd ~/Documents/university/"
 
-alias denv="conda deactivate"
+alias ytd="youtube-dl -x"
 
+alias denv="conda deactivate"
 function aenv() {
     if [ -n "$1" ]
     then
