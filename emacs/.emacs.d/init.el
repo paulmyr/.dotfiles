@@ -1,3 +1,18 @@
+;;; package --- summary
+;
+;;; Commentary:
+; Look at emacs.org.
+;
+; ################################
+; #                              #
+; #            CONFIG            #
+; #                              #
+; #        generated from        #
+; #          emacs.org           #
+; #                              #
+; ################################
+
+
 ;; Initialize package sources
 
 (require 'package)
@@ -216,6 +231,9 @@
   ;;  (setq org-hide-emphasis-markers t)
   )
 
+(setq org-startup-with-inline-images t)
+(setq org-image-actual-width nil)
+
 (use-package org-bullets
   :after org
   :hook (org-mode . org-bullets-mode)
@@ -295,6 +313,24 @@
 
 (org-roam-bibtex-mode)
 
+(defun get-newest-file-from-dir  (path)
+  "Get latest file (including directory) in PATH."
+  (car (directory-files path 'full nil #'file-newer-than-file-p)))
+
+(defun insert-org-image ()
+  "Moves image from Dropbox folder to ./media, inserting org-mode link"
+  (interactive)
+  (let* ((indir (expand-file-name "~/Pictures/screenshots"))
+         (infile (get-newest-file-from-dir indir))
+         (outdir (concat (file-name-directory (buffer-file-name)) "./media"))
+         (outfile (expand-file-name (file-name-nondirectory infile) outdir)))
+    (unless (file-directory-p outdir)
+      (make-directory outdir t))
+    (rename-file infile outfile)
+    (insert (concat (concat "#+org_attr: :width 30%\n[[./media/" (file-name-nondirectory outfile)) "]]")))
+  (newline)
+  (newline))
+
 ;; Make ESC quit prompts
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 ;; unbind RET from evil
@@ -364,6 +400,8 @@
 (global-set-key (kbd "C-c n f") 'org-roam-node-find)
 (global-set-key (kbd "C-c n i") 'org-roam-node-insert)
 (global-set-key (kbd "C-c n c") 'org-ref-cite-insert-helm)
+(global-set-key (kbd "C-c i i") 'insert-org-image)
+(global-set-key (kbd "C-c i t") 'org-toggle-inline-images)
 
 ;; (use-package yasnippet
 ;;   :config

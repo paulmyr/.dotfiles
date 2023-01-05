@@ -1,11 +1,28 @@
 #+title Emacs Config
 #+PROPERTY: header-args:emacs-lisp :tangle ./init.el
 
-# ############################# #
-#                               #
-#           CONFIG              #
-#                               #
-# ############################# #
+* Welcome to emacs.org
+Ricing the init.el:
+
+#+begin_src emacs-lisp
+
+  ;;; package --- summary
+  ;
+  ;;; Commentary:
+  ; Look at emacs.org.
+  ;
+  ;
+  ; ################################
+  ; #                              #
+  ; #            CONFIG            #
+  ; #                              #
+  ; #        generated from        #
+  ; #          emacs.org           #
+  ; #                              #
+  ; ################################
+
+#+end_src
+
 
 * Package Manager Config
 #+begin_src emacs-lisp
@@ -44,6 +61,7 @@
 
 #+end_src
 
+
 * Set personal info
 
 #+begin_src emacs-lisp
@@ -52,6 +70,7 @@
         user-mail-address "p@mayer-zuffenhausen.de")
 
 #+end_src
+
 
 * Set Mac specific settings 
 
@@ -74,6 +93,7 @@
     )
 
 #+end_src
+
 
 * UI Config
 
@@ -180,6 +200,7 @@
                      (projects . 5)))
 
 #+end_src
+
 * Evil
 
 ** Evil: Basic vi keybindings: 
@@ -244,6 +265,7 @@
 
 #+end_src
 
+
 * Helm
 
 #+begin_src emacs-lisp
@@ -263,6 +285,7 @@
   (setq bibtex-completion-notes-symbol "✎")
 
 #+end_src
+
 
 * Projectile
 ** TODO: learn how this works
@@ -284,6 +307,7 @@
 
 #+end_src
 
+
 * Magit
 
 #+begin_src emacs-lisp
@@ -291,6 +315,7 @@
   (use-package magit)
 
 #+end_src
+
 
 * IDE Stuff
 ** Syntax Checking
@@ -337,6 +362,7 @@ Find all the important info [[https://emacs-lsp.github.io/lsp-mode/][here]].
 
 #+RESULTS:
 
+
 * LaTeX
 
 #+begin_src emacs-lisp
@@ -348,8 +374,10 @@ Find all the important info [[https://emacs-lsp.github.io/lsp-mode/][here]].
     (setq TeX-parse-self t))
 
 #+end_src
-* Org
 
+
+* Org
+** Org Installation
 #+begin_src emacs-lisp
 
   (use-package org
@@ -358,6 +386,9 @@ Find all the important info [[https://emacs-lsp.github.io/lsp-mode/][here]].
     (setq org-ellipsis " ▾")
     ;;  (setq org-hide-emphasis-markers t)
     )
+
+  (setq org-startup-with-inline-images t)
+  (setq org-image-actual-width nil)
 
 #+end_src
 
@@ -495,7 +526,32 @@ cite settings:
   (org-roam-bibtex-mode)
 #+end_src
 
+** Screenshots:
+#+begin_src emacs-lisp
+
+  (defun get-newest-file-from-dir  (path)
+    "Get latest file (including directory) in PATH."
+    (car (directory-files path 'full nil #'file-newer-than-file-p)))
+
+  (defun insert-org-image ()
+    "Moves image from Dropbox folder to ./media, inserting org-mode link"
+    (interactive)
+    (let* ((indir (expand-file-name "~/Pictures/screenshots"))
+           (infile (get-newest-file-from-dir indir))
+           (outdir (concat (file-name-directory (buffer-file-name)) "./media"))
+           (outfile (expand-file-name (file-name-nondirectory infile) outdir)))
+      (unless (file-directory-p outdir)
+        (make-directory outdir t))
+      (rename-file infile outfile)
+      (insert (concat (concat "#+org_attr: :width 30%\n[[./media/" (file-name-nondirectory outfile)) "]]")))
+    (newline)
+    (newline))
+
+#+end_src
+
+
 * Keybindings
+** Global universal stuff
 #+begin_src emacs-lisp
 
   ;; Make ESC quit prompts
@@ -508,7 +564,6 @@ cite settings:
 
 #+end_src
 
-
 ** Which-Key:
 #+begin_src emacs-lisp
 
@@ -519,7 +574,7 @@ cite settings:
 
 #+end_src
 
-** General
+** General.el
 #+begin_src emacs-lisp
 
   (use-package general)
@@ -589,11 +644,13 @@ cite settings:
   (global-set-key (kbd "C-c n f") 'org-roam-node-find)
   (global-set-key (kbd "C-c n i") 'org-roam-node-insert)
   (global-set-key (kbd "C-c n c") 'org-ref-cite-insert-helm)
+  (global-set-key (kbd "C-c i i") 'insert-org-image)
+  (global-set-key (kbd "C-c i t") 'org-toggle-inline-images)
 
 #+end_src
 
-* TODO YaSnippet
 
+* TODO YaSnippet
 #+begin_src emacs-lisp
 
   ;; (use-package yasnippet
@@ -602,6 +659,7 @@ cite settings:
   ;;   (yas-global-mode 1))
 
 #+end_src
+
 
 * Finally
 
