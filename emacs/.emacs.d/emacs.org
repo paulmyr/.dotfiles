@@ -23,7 +23,6 @@ Ricing the init.el:
 
 #+end_src
 
-
 * Package Manager Config
 #+begin_src emacs-lisp
 
@@ -61,7 +60,6 @@ Ricing the init.el:
 
 #+end_src
 
-
 * Set personal info
 
 #+begin_src emacs-lisp
@@ -70,7 +68,6 @@ Ricing the init.el:
         user-mail-address "p@mayer-zuffenhausen.de")
 
 #+end_src
-
 
 * Set Mac specific settings 
 
@@ -93,7 +90,6 @@ Ricing the init.el:
     )
 
 #+end_src
-
 
 * UI Config
 
@@ -265,7 +261,6 @@ Ricing the init.el:
 
 #+end_src
 
-
 * Helm
 
 #+begin_src emacs-lisp
@@ -276,16 +271,34 @@ Ricing the init.el:
     (helm-mode 1)
     )
 
+#+end_src
+
+** helm-bibtex 
+
+#+begin_src emacs-lisp
+
   (use-package helm-bibtex
     :after helm)
   (setq bibtex-completion-display-formats
-        '((t . "${author:35} ${title:*} ${year:4} ${=has-pdf=:1}${=has-note=:1} ${=type=:20}")))
+        '((t . "${=key=:20}  ${title:*} ${author: 40}  ${year:4}  ${=has-pdf=:1} ${=has-note=:1}  ${=type=:20}")))
 
   (setq bibtex-completion-pdf-symbol "⌘")
   (setq bibtex-completion-notes-symbol "✎")
+  (setq helm-bibtex-full-frame nil)
+
 
 #+end_src
 
+To open pdf with zathura:
+
+#+begin_src emacs-lisp
+
+  (setq helm-bibtex-pdf-open-function
+        (lambda (fpath)
+          (start-process "zathura" "helm-bibtex-zathura" "xdg-open"
+                         fpath)))
+
+#+end_src
 
 * Projectile
 ** TODO: learn how this works
@@ -307,7 +320,6 @@ Ricing the init.el:
 
 #+end_src
 
-
 * Magit
 
 #+begin_src emacs-lisp
@@ -315,7 +327,6 @@ Ricing the init.el:
   (use-package magit)
 
 #+end_src
-
 
 * IDE Stuff
 ** Syntax Checking
@@ -362,7 +373,6 @@ Find all the important info [[https://emacs-lsp.github.io/lsp-mode/][here]].
 
 #+RESULTS:
 
-
 * LaTeX
 
 #+begin_src emacs-lisp
@@ -374,7 +384,6 @@ Find all the important info [[https://emacs-lsp.github.io/lsp-mode/][here]].
     (setq TeX-parse-self t))
 
 #+end_src
-
 
 * Org
 ** Org Installation
@@ -447,12 +456,12 @@ Note: org-return-follows-link only works when evil RET is unbound. Look file:::4
     (org-roam-capture-templates
      '(("d" "default" plain
         "%?"
-        :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags: \n\n")
+        :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags:\n\n")
         :unnarrowed t)
        ("r" "bibliography reference" plain
         "%?"
         :target
-        (file+head "references/${citekey}.org" "#+title: ${citekey}: ${title}\n#+filetags: \n\n")
+        (file+head "references/${citekey}.org" "#+title: ${citekey}: ${title}\n#+filetags: :paper:\n\n")
         :unnarrowed t)))
     :config
     (org-roam-setup)
@@ -497,7 +506,7 @@ cite settings:
         '("/home/palu/Insync/paul.jofly@gmail.com/Google Drive/Bibliothek/syncs/bibliography.bib"))
 
   (setq bibtex-completion-library-path '("~/Insync/paul.jofly@gmail.com/Google Drive/Bibliothek/Dokumente/Bachelor Thesis/papers/"))
-  (setq bibtex-completion-pdf-field "File")
+; (setq bibtex-completion-pdf-field "File")
 
   (setq org-cite-global-bibliography
         '("/home/palu/Insync/paul.jofly@gmail.com/Google Drive/Bibliothek/syncs/bibliography.bib"))
@@ -548,7 +557,6 @@ cite settings:
     (newline))
 
 #+end_src
-
 
 * Keybindings
 ** Global universal stuff
@@ -626,6 +634,7 @@ cite settings:
 #+begin_src emacs-lisp
 
   (global-set-key (kbd "C-x b") 'helm-buffers-list)
+  (global-set-key (kbd "C-x B") 'ibuffer)
   (global-set-key (kbd "C-x r b") 'helm-bookmarks)
   (global-set-key (kbd "C-x C-f") 'helm-find-files)
   (global-set-key (kbd "C-s") 'helm-occur)
@@ -649,7 +658,6 @@ cite settings:
 
 #+end_src
 
-
 * TODO YaSnippet
 #+begin_src emacs-lisp
 
@@ -662,7 +670,6 @@ cite settings:
 
 
 * Finally
-
 #+begin_src emacs-lisp
 
   (setq custom-file "~/.emacs.d/custom.el")
@@ -672,3 +679,4 @@ cite settings:
   ;;; init.el ends here
 
 #+end_src
+

@@ -3,6 +3,7 @@
 ;;; Commentary:
 ; Look at emacs.org.
 ;
+;
 ; ################################
 ; #                              #
 ; #            CONFIG            #
@@ -11,7 +12,6 @@
 ; #          emacs.org           #
 ; #                              #
 ; ################################
-
 
 ;; Initialize package sources
 
@@ -174,10 +174,16 @@
 (use-package helm-bibtex
   :after helm)
 (setq bibtex-completion-display-formats
-      '((t . "${author:35} ${title:*} ${year:4} ${=has-pdf=:1}${=has-note=:1} ${=type=:20}")))
+      '((t . "${=key=:20}  ${title:*} ${author: 40}  ${year:4}  ${=has-pdf=:1} ${=has-note=:1}  ${=type=:20}")))
 
 (setq bibtex-completion-pdf-symbol "⌘")
 (setq bibtex-completion-notes-symbol "✎")
+(setq helm-bibtex-full-frame nil)
+
+(setq helm-bibtex-pdf-open-function
+      (lambda (fpath)
+        (start-process "zathura" "helm-bibtex-zathura" "xdg-open"
+                       fpath)))
 
 (use-package projectile
   :diminish projectile-mode
@@ -264,12 +270,12 @@
   (org-roam-capture-templates
    '(("d" "default" plain
       "%?"
-      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags: \n\n")
+      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags:\n\n")
       :unnarrowed t)
      ("r" "bibliography reference" plain
       "%?"
       :target
-      (file+head "references/${citekey}.org" "#+title: ${citekey}: ${title}\n#+filetags: \n\n")
+      (file+head "references/${citekey}.org" "#+title: ${citekey}: ${title}\n#+filetags: :paper:\n\n")
       :unnarrowed t)))
   :config
   (org-roam-setup)
@@ -288,21 +294,21 @@
 (use-package citeproc)
 
 (setq bibtex-completion-bibliography
-      '("/home/palu/Insync/paul.jofly@gmail.com/Google Drive/Bibliothek/syncs/bibliography.bib"))
+        '("/home/palu/Insync/paul.jofly@gmail.com/Google Drive/Bibliothek/syncs/bibliography.bib"))
 
-(setq bibtex-completion-library-path '("~/Insync/paul.jofly@gmail.com/Google Drive/Bibliothek/Dokumente/Bachelor Thesis/papers/"))
-(setq bibtex-completion-pdf-field "File")
+  (setq bibtex-completion-library-path '("~/Insync/paul.jofly@gmail.com/Google Drive/Bibliothek/Dokumente/Bachelor Thesis/papers/"))
+; (setq bibtex-completion-pdf-field "File")
 
-(setq org-cite-global-bibliography
-      '("/home/palu/Insync/paul.jofly@gmail.com/Google Drive/Bibliothek/syncs/bibliography.bib"))
+  (setq org-cite-global-bibliography
+        '("/home/palu/Insync/paul.jofly@gmail.com/Google Drive/Bibliothek/syncs/bibliography.bib"))
 
-(setq org-cite-csl-styles-dir "~/.emacs.d/.cslstyles/")
-(setq org-cite-export-processors
-      '((md . (csl "chicago-author-date.csl"))   ; Footnote reliant
-        (latex . biblatex)                                 ; For humanities
-        (odt . (csl "chicago-author-date.csl"))  ; Footnote reliant
-        (t . (csl "chicago-author-date.csl"))      ; Fallback
-        ))
+  (setq org-cite-csl-styles-dir "~/.emacs.d/.cslstyles/")
+  (setq org-cite-export-processors
+        '((md . (csl "chicago-author-date.csl"))   ; Footnote reliant
+          (latex . biblatex)                                 ; For humanities
+          (odt . (csl "chicago-author-date.csl"))  ; Footnote reliant
+          (t . (csl "chicago-author-date.csl"))      ; Fallback
+          ))
 
 (use-package org-roam-bibtex
   :after org-roam
@@ -387,6 +393,7 @@
   )
 
 (global-set-key (kbd "C-x b") 'helm-buffers-list)
+(global-set-key (kbd "C-x B") 'ibuffer)
 (global-set-key (kbd "C-x r b") 'helm-bookmarks)
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "C-s") 'helm-occur)
