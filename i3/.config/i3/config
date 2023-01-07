@@ -251,6 +251,7 @@ bindsym $mod+Shift+F11 move container to workspace number $ws23
 bindsym $mod+Shift+F12 move container to workspace number $ws24
 
 assign [class="^thunderbird$"] $ws9
+assign [class="^Zathura$"] $ws15
 assign [class="^Mattermost$"] $ws21
 assign [class="^Signal$"] $ws22
 assign [class="^TelegramDesktop$"] $ws22
