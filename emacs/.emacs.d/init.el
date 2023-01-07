@@ -58,6 +58,11 @@
   (setq visible-bell t)
   )
 
+(when (eq system-type 'darwin)
+  (setq pm/path_to_gdrive "~/Google Drive/My Drive"))
+(when (not (eq system-type 'darwin))
+  (setq pm/path_to_gdrive "~/Insync/paul.jofly@gmail.com/Google Drive"))
+
 (setq pm/path_to_dotfiles "~/.dotfiles")
 (setq pm/path_to_documents "~/Documents")
 (setq pm/path_to_pictures "~/Pictures")
@@ -65,9 +70,9 @@
 (setq pm/path_to_videos "~/Videos")
 (setq pm/path_to_emacsd "~/.emacs.d")
 
-(setq pm/path_to_bibliography "~/Insync/paul.jofly@gmail.com/Google Drive/Bibliothek/syncs/bibliography.bib")
-(setq pm/path_to_paperlib "~/Insync/paul.jofly@gmail.com/Google Drive/Bibliothek/Dokumente/Bachelor Thesis/papers/")
-(setq pm/path_to_zettelkasten "~/Documents/Zettelkasten")
+(setq pm/path_to_bibliography (concat pm/path_to_gdrive "/Bibliothek/Notes/bibliography.bib"))
+(setq pm/path_to_paperlib (concat pm/path_to_gdrive "/Bibliothek/Notes/Library"))
+(setq pm/path_to_zettelkasten (concat pm/path_to_gdrive "/Bibliothek/Notes/Zettelkasten"))
 (setq pm/path_to_screenshots "~/Pictures/screenshots/")
 
 (setq inhibit-startup-message t)        ;; thanks but no
