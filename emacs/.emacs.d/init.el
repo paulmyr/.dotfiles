@@ -1,9 +1,5 @@
 ;;; package --- summary
 ;
-;;; Commentary:
-; Look at emacs.org.
-;
-;
 ; ################################
 ; #                              #
 ; #            CONFIG            #
@@ -12,6 +8,10 @@
 ; #          emacs.org           #
 ; #                              #
 ; ################################
+;
+;
+;;; Commentary:
+; Look at emacs.org.
 
 ;; Initialize package sources
 
@@ -57,6 +57,18 @@
 (when (not (eq system-type 'darwin))
   (setq visible-bell t)
   )
+
+(setq pm/path_to_dotfiles "~/.dotfiles")
+(setq pm/path_to_documents "~/Documents")
+(setq pm/path_to_pictures "~/Pictures")
+(setq pm/path_to_projects "~/Projects")
+(setq pm/path_to_videos "~/Videos")
+(setq pm/path_to_emacsd "~/.emacs.d")
+
+(setq pm/path_to_bibliography "~/Insync/paul.jofly@gmail.com/Google Drive/Bibliothek/syncs/bibliography.bib")
+(setq pm/path_to_paperlib "~/Insync/paul.jofly@gmail.com/Google Drive/Bibliothek/Dokumente/Bachelor Thesis/papers/")
+(setq pm/path_to_zettelkasten "~/Documents/Zettelkasten")
+(setq pm/path_to_screenshots "~/Pictures/screenshots/")
 
 (setq inhibit-startup-message t)        ;; thanks but no
 
@@ -189,8 +201,8 @@
   :diminish projectile-mode
   :config (projectile-mode)
   :init
-  (when (file-directory-p "~/Projects")
-    (setq projectile-project-search-path '("~/Projects")))
+  (when (file-directory-p pm/path_to_projects)
+    (setq projectile-project-search-path `(,pm/path_to_projects)))
   (setq projectile-switch-project-action #'projectile-dired)
   :custom ((projectile-completion-system 'helm)))
 
@@ -264,7 +276,7 @@
 (use-package org-roam
   :ensure t
   :custom
-  (org-roam-directory "~/Documents/Zettelkasten")
+  (org-roam-directory pm/path_to_zettelkasten)
   (org-roam-completion-everywhere t)
                                         ;(org-return-follows-link  t)                          ;; See comment above
   (org-roam-capture-templates
@@ -294,13 +306,13 @@
 (use-package citeproc)
 
 (setq bibtex-completion-bibliography
-        '("/home/palu/Insync/paul.jofly@gmail.com/Google Drive/Bibliothek/syncs/bibliography.bib"))
+        `(,pm/path_to_bibliography))
 
-  (setq bibtex-completion-library-path '("~/Insync/paul.jofly@gmail.com/Google Drive/Bibliothek/Dokumente/Bachelor Thesis/papers/"))
+  (setq bibtex-completion-library-path `(,pm/path_to_paperlib))
 ; (setq bibtex-completion-pdf-field "File")
 
   (setq org-cite-global-bibliography
-        '("/home/palu/Insync/paul.jofly@gmail.com/Google Drive/Bibliothek/syncs/bibliography.bib"))
+        `(,pm/path_to_paperlib))
 
   (setq org-cite-csl-styles-dir "~/.emacs.d/.cslstyles/")
   (setq org-cite-export-processors
@@ -326,7 +338,7 @@
 (defun insert-org-image ()
   "Moves image from Dropbox folder to ./media, inserting org-mode link"
   (interactive)
-  (let* ((indir (expand-file-name "~/Pictures/screenshots"))
+  (let* ((indir (expand-file-name pm/path_to_screenshots))
          (infile (get-newest-file-from-dir indir))
          (outdir (concat (file-name-directory (buffer-file-name)) "./media"))
          (outfile (expand-file-name (file-name-nondirectory infile) outdir)))
@@ -336,6 +348,8 @@
     (insert (concat (concat "#+org_attr: :width 30%\n[[./media/" (file-name-nondirectory outfile)) "]]")))
   (newline)
   (newline))
+
+(require 'org-inlinetask)
 
 ;; Make ESC quit prompts
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
@@ -365,10 +379,10 @@
 (mayerpa/space-leader
   "."  '(dired :which-key "find file")
   "SPC" '(projectile-find-file :which-key "find file in project")
-  "fe"  '((lambda () (interactive) (find-file "~/.emacs.d/init.el")) :which-key "init file")
-  "f3"  '((lambda () (interactive) (find-file "~/.config/i3/config")) :which-key "i3 config")
-  "fi"  '((lambda () (interactive) (find-file "~/.config/nvim/init.vim")) :which-key "init.vim")
-  "fz"  '((lambda () (interactive) (find-file "~/.zshrc")) :which-key "zsh config")
+  "fe"  '((lambda () (interactive) (find-file (concat pm/path_to_emacsd "/init.el"))) :which-key "init file")
+  "f3"  '((lambda () (interactive) (find-file (concat pm_path_to_dotfiles "i3/.config/i3/config"))) :which-key "i3 config")
+  "fi"  '((lambda () (interactive) (find-file (concat pm_path_to_dotfiles "neovim/.config/nvim/init.vim"))) :which-key "init.vim")
+  "fz"  '((lambda () (interactive) (find-file (concat pm_path_to_dotfiles "zsh/.zshrc"))) :which-key "zsh config")
 
   "m"   '(magit :which-key "magit")
 
@@ -382,12 +396,12 @@
   "d"   '(:ignore t :which-key "dired")
   "d."  '(dired :which-key "Here")
   "dh"  '((lambda () (interactive) (dired "~")) :which-key "Home")
-  "dn"  '((lambda () (interactive) (dired "~/Documents")) :which-key "Documents")
-  "do"  '((lambda () (interactive) (dired "~/Downloads")) :which-key "Downloads")
-  "dp"  '((lambda () (interactive) (dired "~/Pictures")) :which-key "Pictures")
-  "dv"  '((lambda () (interactive) (dired "~/Videos")) :which-key "Videos")
-  "dd"  '((lambda () (interactive) (dired "~/.dotfiles")) :which-key "dotfiles")
-  "de"  '((lambda () (interactive) (dired "~/.emacs.d")) :which-key ".emacs.d")
+  "dn"  '((lambda () (interactive) (dired pm/path_to_documents)) :which-key "Documents")
+  "do"  '((lambda () (interactive) (dired pm/path_to_downloads)) :which-key "Downloads")
+  "dp"  '((lambda () (interactive) (dired pm/path_to_pictures)) :which-key "Pictures")
+  "dv"  '((lambda () (interactive) (dired pm/path_to_videos)) :which-key "Videos")
+  "dd"  '((lambda () (interactive) (dired pm/path_to_dotfiles)) :which-key "dotfiles")
+  "de"  '((lambda () (interactive) (dired pm/path_to_emacsd)) :which-key ".emacs.d")
 
   "b"  '(helm-bibtex :which-key "helm bibtex")
   )
