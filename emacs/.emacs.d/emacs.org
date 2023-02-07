@@ -76,8 +76,8 @@ Ricing the init.el:
     (setq mac-right-command-modifier 'none)
     (setq mac-option-key-is-meta nil)
     (setq mac-option-modifier nil)
-    (setq mac-control-modifier 'meta)
-    (setq mac-command-modifier 'control)
+    (setq mac-control-modifier 'control)
+    (setq mac-command-modifier 'meta)
     (global-set-key [kp-delete] 'delete-char) ;; sets fn-delete to be right-delete
     (setq visible-bell nil)
     )

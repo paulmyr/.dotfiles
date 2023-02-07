@@ -40,16 +40,16 @@
       user-mail-address "p@mayer-zuffenhausen.de")
 
 ;; mac specific settings
-  (when (eq system-type 'darwin)
-    (setq mac-right-option-modifier 'none)
-    (setq mac-right-command-modifier 'none)
-    (setq mac-option-key-is-meta nil)
-    (setq mac-option-modifier nil)
-    (setq mac-control-modifier 'meta)
-    (setq mac-command-modifier 'control)
-    (global-set-key [kp-delete] 'delete-char) ;; sets fn-delete to be right-delete
-    (setq visible-bell nil)
-    )
+(when (eq system-type 'darwin)
+  (setq mac-right-option-modifier 'none)
+  (setq mac-right-command-modifier 'none)
+  (setq mac-option-key-is-meta nil)
+  (setq mac-option-modifier nil)
+  (setq mac-control-modifier 'control)
+  (setq mac-command-modifier 'meta)
+  (global-set-key [kp-delete] 'delete-char) ;; sets fn-delete to be right-delete
+  (setq visible-bell nil)
+  )
 
 ;  (when (not (eq system-type 'darwin))
 ;    (setq visible-bell t)
