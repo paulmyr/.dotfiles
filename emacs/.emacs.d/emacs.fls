@@ -1,0 +1,6 @@
+PWD /home/palu/.dotfiles/emacs/.emacs.d
+INPUT /usr/share/texlive/texmf-dist/web2c/texmf.cnf
+INPUT /usr/share/texlive/texmf-dist/web2c/texmf.cnf
+INPUT /usr/share/texlive/texmf-var/web2c/pdftex/pdflatex.fmt
+INPUT emacs.man
+OUTPUT emacs.log

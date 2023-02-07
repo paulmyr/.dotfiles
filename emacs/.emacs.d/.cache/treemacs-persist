@@ -1,0 +1,9 @@
+* Default
+** .dotfiles
+ - path :: ~/.dotfiles
+* No Perspective
+** palu
+ - path :: ~
+* No Tab
+** paluthebear.github.io
+ - path :: ~/Projects/paluthebear.github.io

@@ -1,0 +1,10 @@
+# Fdb version 4
+["pdflatex"] 1673103303 "emacs.man" "emacs.pdf" "emacs" 1673103304 2
+  "/usr/share/texlive/texmf-dist/web2c/texmf.cnf" 1661385786 40136 b05acc85e8425979e52682d98a2bcacf ""
+  "/usr/share/texlive/texmf-var/web2c/pdftex/pdflatex.fmt" 1672662079 1345261 556518bee4c67dab589ca6f5aae2b3cd ""
+  "emacs.aux" 1673102158 32 3985256e7290058c681f74d7a3565a19 ""
+  "emacs.man" 1673103303 16935 4b64d69e364b2d6589f098b14a9d33ce ""
+  (generated)
+  "emacs.log"
+  "emacs.pdf"
+  (rewritten before read)
