@@ -67,34 +67,36 @@
 (setq pm/path_to_videos "~/Videos")
 (setq pm/path_to_emacsd (concat pm/path_to_dotfiles "/emacs/.emacs.d"))
 
-(setq pm/path_to_bibliography (concat pm/path_to_gdrive "/Bibliothek/Notes/bibliography.bib"))
-(setq pm/path_to_paperlib (concat pm/path_to_gdrive "/Bibliothek/Notes/Library"))
-(setq pm/path_to_zettelkasten (concat pm/path_to_gdrive "/Bibliothek/Notes/Zettelkasten"))
+(setq pm/path_to_bibliography (concat pm/path_to_gdrive "/Projects/Bachelor Thesis/bibliography.bib"))
+(setq pm/path_to_paperlib (concat pm/path_to_gdrive "/Projects/Bachelor Thesis/Library"))
+(setq pm/path_to_zettelkasten (concat pm/path_to_gdrive "/Projects/Bachelor Thesis/Zettelkasten"))
 (setq pm/path_to_screenshots "~/Pictures/screenshots/")
 
+(setq debug-on-error t)
+
 (setq inhibit-startup-message t)        ;; thanks but no
-  (setq confirm-kill-emacs 'yes-or-no-p)  ;; I have fat fingers
+(setq confirm-kill-emacs 'yes-or-no-p)  ;; I have fat fingers
 
-  (set-face-attribute 'default nil :font "Comic Code Ligatures" :height 125)
+(set-face-attribute 'default nil :font "Comic Code Ligatures" :height 125)
 
-  (scroll-bar-mode -1)
-  (tool-bar-mode -1)
-  (tooltip-mode -1)
-  (menu-bar-mode -1)
-  (set-fringe-mode 10)
-  (setq-default tab-width 4)
-  (setq warning-minimum-level :emergency)
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
+(tooltip-mode -1)
+(menu-bar-mode -1)
+(set-fringe-mode 10)
+(setq-default tab-width 4)
+(setq warning-minimum-level :emergency)
 
-  (add-hook 'prog-mode-hook #'display-line-numbers-mode)
-  (add-hook 'find-file-hook #'display-line-numbers-mode)
-; (global-display-line-numbers-mode)           ;; line numbers
-  (setq display-line-numbers-type 'relative)   ;; relative line numbers
+(add-hook 'prog-mode-hook #'display-line-numbers-mode)
+(add-hook 'find-file-hook #'display-line-numbers-mode)
+                                        ; (global-display-line-numbers-mode)           ;; line numbers
+(setq display-line-numbers-type 'relative)   ;; relative line numbers
 
-  ;; disable line numbers for:
-  (dolist (mode '(term-mode-hook
-                  doc-view-mode-hook
-                  eshell-mode-hook))
-    (add-hook mode (lambda () (display-line-numbers-mode 0))))
+;; disable line numbers for:
+(dolist (mode '(term-mode-hook
+                doc-view-mode-hook
+                eshell-mode-hook))
+  (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
@@ -118,12 +120,11 @@
   (load-theme 'doom-dracula t)
   )
 
-(when (not (eq system-type 'darwin))
-  (use-package doom-modeline
-      :ensure t
-      :init (doom-modeline-mode 1)
-      :custom ((doom-modeline-height 15)))
-)
+; (when (not (eq system-type 'darwin))
+;   (use-package doom-modeline
+;       :ensure t
+;       :init (doom-modeline-mode 1)
+;       :custom ((doom-modeline-height 15)))
 
 ;; DASHBOARD
 (use-package dashboard
@@ -354,27 +355,27 @@
   "Enable Flyspell appropriately for the major mode of the current buffer.  Uses `flyspell-prog-mode' for modes derived from `prog-mode', so only strings and comments get checked.  All other buffers get `flyspell-mode' to check all text.  If flyspell is already enabled, does nothing."
   (interactive)
   (if (not (symbol-value flyspell-mode)) ; if not already on
-(progn
-  (if (derived-mode-p 'prog-mode)
-    (progn
-      (message "Flyspell on (code)")
-      (flyspell-prog-mode))
-    ;; else
-    (progn
-      (message "Flyspell on (text)")
-      (flyspell-mode 1)))
-  ;; I tried putting (flyspell-buffer) here but it didn't seem to work
-  )))
+      (progn
+        (if (derived-mode-p 'prog-mode)
+            (progn
+              (message "Flyspell on (code)")
+              (flyspell-prog-mode))
+          ;; else
+          (progn
+            (message "Flyspell on (text)")
+            (flyspell-mode 1)))
+        ;; I tried putting (flyspell-buffer) here but it didn't seem to work
+        )))
 
 (defun pm/flyspell-toggle ()
   "Turn Flyspell on if it is off, or off if it is on.  When turning on, it uses `flyspell-on-for-buffer-type' so code-vs-text is handled appropriately."
   (interactive)
   (if (symbol-value flyspell-mode)
-  (progn ; flyspell is on, turn it off
-    (message "Flyspell off")
-    (flyspell-mode -1))
-  ; else - flyspell is off, turn it on
-  (pm/flyspell-on-for-buffer-type)))
+      (progn ; flyspell is on, turn it off
+        (message "Flyspell off")
+        (flyspell-mode -1))
+                                        ; else - flyspell is off, turn it on
+    (pm/flyspell-on-for-buffer-type)))
 
 (use-package flycheck
   :config (global-flycheck-mode)
@@ -398,14 +399,14 @@
 (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
 
 (use-package dap-mode)
-(use-package dap-python)
+; (use-package dap-python)
 
 (use-package tex
   :ensure auctex
   :config
   (setq TeX-auto-save t)
   (setq TeX-parse-self t)
-  ; default viewer
+                                        ; default viewer
   (setq TeX-view-program-selection '((output-pdf "Zathura"))))
 
 (defun pm/org-babel-tangle-emacsorg ()
@@ -489,18 +490,18 @@
 (require 'oc-biblatex)
 
 (setq bibtex-completion-bibliography
-        `(,pm/path_to_bibliography))
+      `(,pm/path_to_bibliography))
 
-  (setq bibtex-completion-library-path `(,pm/path_to_paperlib))
-  (setq bibtex-completion-pdf-field "File")
+(setq bibtex-completion-library-path `(,pm/path_to_paperlib))
+(setq bibtex-completion-pdf-field "File")
 
-  (setq org-cite-global-bibliography
-        `(,pm/path_to_paperlib))
+(setq org-cite-global-bibliography
+      `(,pm/path_to_paperlib))
 
-;  (setq org-cite-csl-styles-dir "~/.emacs.d/.cslstyles/")
-  (setq org-cite-export-processors
-        '((latex biblatex)                                 ; For humanities
-          (t csl)))                   ; Fallback
+                                        ;  (setq org-cite-csl-styles-dir "~/.emacs.d/.cslstyles/")
+(setq org-cite-export-processors
+      '((latex biblatex)                                 ; For humanities
+        (t csl)))                   ; Fallback
 
 (use-package org-roam-bibtex
   :after org-roam
@@ -548,8 +549,8 @@
 (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 ;; unbind RET from evil
-;(with-eval-after-load 'evil-maps
-;(define-key evil-motion-state-map (kbd "RET") nil))
+                                        ;(with-eval-after-load 'evil-maps
+                                        ;(define-key evil-motion-state-map (kbd "RET") nil))
 ;; Since evil wants to use C-u
 (global-set-key (kbd "C-M-u") 'universal-argument)
 
@@ -599,6 +600,8 @@
   "de"  '((lambda () (interactive) (dired pm/path_to_emacsd)) :which-key ".emacs.d")
 
   "b"  '(helm-bibtex :which-key "helm bibtex")
+
+  "p" '(projectile-command-map :which-key "projectile")
   )
 
 (global-set-key (kbd "C-x b") 'helm-buffers-list)
