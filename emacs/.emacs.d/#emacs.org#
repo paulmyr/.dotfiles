@@ -184,10 +184,10 @@ Ricing the init.el:
     :ensure t
     :config (dashboard-setup-startup-hook))
 
-  (setq
+  (set q
    dashboard-banner-logo-title "greetings, traveler"
    dashboard-startup-banner 'logo
-   dashboard-center-content t
+   dashboard-center-content 't
    dashboard-set-heading-icons t
    dashboard-set-file-icons t
    dashboard-footer-messages

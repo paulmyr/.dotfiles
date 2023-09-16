@@ -13,63 +13,42 @@
 ;;; Commentary:
 ; Look at emacs.org.
 
-;; Initialize package sources
-
-  (require 'package)
-
-  (setq package-archives '(("elpa" . "https://elpa.gnu.org/packages/")
-                           ("org" . "https://orgmode.org/elpa/")
-                           ("melpa" . "https://melpa.org/packages/")
-                           ))
-
-; (package-initialize)
-
-  (unless package-archive-contents
-    (package-refresh-contents))
-
-  ;; Initialize use-package on non-Linux platforms
-  (unless (package-installed-p 'use-package)
-    (package-install 'use-package))
-
-  (require 'use-package)
-  (setq use-package-always-ensure t)
-
 (add-to-list 'load-path "~/.emacs.d/selfmanaged_plugins/")
 
 (setq user-full-name "Paul Mayer"
       user-mail-address "p@mayer-zuffenhausen.de")
 
 ;; mac specific settings
-(when (eq system-type 'darwin)
-  (setq mac-right-option-modifier 'none)
-  (setq mac-right-command-modifier 'none)
-  (setq mac-option-key-is-meta nil)
-  (setq mac-option-modifier nil)
-  (setq mac-control-modifier 'control)
-  (setq mac-command-modifier 'meta)
-  (global-set-key [kp-delete] 'delete-char) ;; sets fn-delete to be right-delete
-  (setq visible-bell nil)
-  )
+  (when (eq system-type 'darwin)
+    (setq mac-right-option-modifier 'none)
+    (setq mac-right-command-modifier 'none)
+    (setq mac-option-key-is-meta nil)
+    (setq mac-option-modifier nil)
+    (setq mac-control-modifier 'control)
+    (setq mac-command-modifier 'meta)
+    (global-set-key [kp-delete] 'delete-char) ;; sets fn-delete to be right-delete
+    (setq visible-bell nil)
+    )
 
 ;  (when (not (eq system-type 'darwin))
 ;    (setq visible-bell t)
 ;    )
 
-(when (eq system-type 'darwin)
-  (setq pm/path_to_gdrive "~/Google Drive/My Drive"))
-(when (not (eq system-type 'darwin))
-  (setq pm/path_to_gdrive "~/Insync/paul.jofly@gmail.com/Google Drive"))
+;(when (eq system-type 'darwin)
+;  (setq pm/path_to_gdrive "~/Google Drive/My Drive"))
+;(when (not (eq system-type 'darwin))
+;  (setq pm/path_to_gdrive "~/Insync/paul.jofly@gmail.com/Google Drive"))
 
 (setq pm/path_to_dotfiles "~/.dotfiles")
 (setq pm/path_to_documents "~/Documents")
 (setq pm/path_to_pictures "~/Pictures")
 (setq pm/path_to_projects "~/Projects")
-(setq pm/path_to_videos "~/Videos")
+;(setq pm/path_to_videos "~/Videos")
 (setq pm/path_to_emacsd (concat pm/path_to_dotfiles "/emacs/.emacs.d"))
 
-(setq pm/path_to_bibliography (concat pm/path_to_gdrive "/Projects/Bachelor Thesis/bibliography.bib"))
-(setq pm/path_to_paperlib (concat pm/path_to_gdrive "/Projects/Bachelor Thesis/Library"))
-(setq pm/path_to_zettelkasten (concat pm/path_to_gdrive "/Projects/Bachelor Thesis/Zettelkasten"))
+;(setq pm/path_to_bibliography (concat pm/path_to_gdrive "/Projects/Bachelor Thesis/bibliography.bib"))
+;(setq pm/path_to_paperlib (concat pm/path_to_gdrive "/Projects/Bachelor Thesis/Library"))
+;(setq pm/path_to_zettelkasten (concat pm/path_to_gdrive "/Projects/Bachelor Thesis/Zettelkasten"))
 (setq pm/path_to_screenshots "~/Pictures/screenshots/")
 
 (setq debug-on-error t)
@@ -138,12 +117,13 @@
  dashboard-center-content t
  dashboard-set-heading-icons t
  dashboard-set-file-icons t
- dasgbiard-footer-messages
- '("The one true editor, Emacs!"
-   "Happy coding!"
+ dashboard-footer-messages '("Happy coding!"
    "Welcome to the church of Emacs"
    "Emacs killed my whole family, I'll throw you under a bridge"
    "Traveller was here"
+   "HELP! I thought this was VS Code..."
+   "I promise, I'll get to work soon... just one more tweak"
+   "What was the shortcut for closing emacs again?"
    "While any text editor can save your files, only Emacs can save your soul"
    "I showed you my source code, pls respond")
  dashboard-items '((recents . 5)
@@ -452,93 +432,93 @@
 (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
 (add-to-list 'org-structure-template-alist '("py" . "src python"))
 
-(use-package org-roam
-  :ensure t
-  :custom
-  (org-roam-directory pm/path_to_zettelkasten)
-  (org-roam-completion-everywhere t)
-                                        ;(org-return-follows-link  t)                          ;; See comment above
-  (org-roam-capture-templates
-   '(("d" "default" plain
-      "%?"
-      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags:\n\n")
-      :unnarrowed t)
-     ("r" "bibliography reference" plain
-      "%?"
-      :target
-      (file+head "references/${citekey}.org" "#+title: ${citekey}: ${title}\n#+filetags: :paper:\n\n")
-      :unnarrowed t)))
-  :config
-  (org-roam-setup)
-  )
+;(use-package org-roam
+;  :ensure t
+;  :custom
+;  (org-roam-directory pm/path_to_zettelkasten)
+;  (org-roam-completion-everywhere t)
+;                                        ;(org-return-follows-link  t)                          ;; See comment above
+;  (org-roam-capture-templates
+;   '(("d" "default" plain
+;      "%?"
+;      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags:\n\n")
+;      :unnarrowed t)
+;     ("r" "bibliography reference" plain
+;      "%?"
+;      :target
+;      (file+head "references/${citekey}.org" "#+title: ${citekey}: ${title}\n#+filetags: :paper:\n\n")
+;      :unnarrowed t)))
+;  :config
+;  (org-roam-setup)
+;  )
 
-(setq org-roam-node-display-template "${title:200}${tags}")
+;(setq org-roam-node-display-template "${title:200}${tags}")
 
-(setq org-roam-dailies-directory "dailies/")
-(setq org-roam-dailies-capture-templates
-      '(("d" "default" entry
-         "* %?"
-         :target (file+head "%<%Y-%m-%d>.org"
-                            "#+title: %<%Y-%m-%d>\n#+filetags: :daily:\n\n"))))
+;(setq org-roam-dailies-directory "dailies/")
+;(setq org-roam-dailies-capture-templates
+;      '(("d" "default" entry
+;         "* %?"
+;         :target (file+head "%<%Y-%m-%d>.org"
+;                            "#+title: %<%Y-%m-%d>\n#+filetags: :daily:\n\n"))))
 
-(require 'ox-md)  ; backend for markdown
-(require 'ox-man) ; backend for manpages
+;(require 'ox-md)  ; backend for markdown
+;(require 'ox-man) ; backend for manpages
 
-(use-package org-ref)
-(require 'oc-basic)
-(require 'oc-csl)
-(require 'oc-biblatex)
+;(use-package org-ref)
+;(require 'oc-basic)
+;(require 'oc-csl)
+;(require 'oc-biblatex)
 
-(setq bibtex-completion-bibliography
-      `(,pm/path_to_bibliography))
+;(setq bibtex-completion-bibliography
+;      `(,pm/path_to_bibliography))
 
-(setq bibtex-completion-library-path `(,pm/path_to_paperlib))
-(setq bibtex-completion-pdf-field "File")
+;(setq bibtex-completion-library-path `(,pm/path_to_paperlib))
+;(setq bibtex-completion-pdf-field "File")
 
-(setq org-cite-global-bibliography
-      `(,pm/path_to_paperlib))
+;(setq org-cite-global-bibliography
+;      `(,pm/path_to_paperlib))
 
-                                        ;  (setq org-cite-csl-styles-dir "~/.emacs.d/.cslstyles/")
-(setq org-cite-export-processors
-      '((latex biblatex)                                 ; For humanities
-        (t csl)))                   ; Fallback
+;                                        ;  (setq org-cite-csl-styles-dir "~/.emacs.d/.cslstyles/")
+;(setq org-cite-export-processors
+;      '((latex biblatex)                                 ; For humanities
+;        (t csl)))                   ; Fallback
 
-(use-package org-roam-bibtex
-  :after org-roam
-  :ensure t
-  :config
-  (require 'org-ref)
-  )
+;(use-package org-roam-bibtex
+;  :after org-roam
+;  :ensure t
+;  :config
+;  (require 'org-ref)
+;  )
 
-(org-roam-bibtex-mode)
+;(org-roam-bibtex-mode)
 
-(defun get-newest-file-from-dir  (path)
-  "Get latest file (including directory) in PATH."
-  (car (directory-files path 'full nil #'file-newer-than-file-p)))
+;(defun get-newest-file-from-dir  (path)
+;  "Get latest file (including directory) in PATH."
+;  (car (directory-files path 'full nil #'file-newer-than-file-p)))
 
-(defun insert-org-image ()
-  "Moves image from Dropbox folder to ./media, inserting org-mode link"
-  (interactive)
-  (let* ((indir (expand-file-name pm/path_to_screenshots))
-         (infile (get-newest-file-from-dir indir))
-         (outdir (concat (file-name-directory (buffer-file-name)) "./media"))
-         (outfile (expand-file-name (file-name-nondirectory infile) outdir)))
-    (unless (file-directory-p outdir)
-      (make-directory outdir t))
-    (rename-file infile outfile)
-    (insert (concat (concat "#+org_attr: :width 30%\n[[./media/" (file-name-nondirectory outfile)) "]]")))
-  (newline)
-  (newline))
+;(defun insert-org-image ()
+;  "Moves image from Dropbox folder to ./media, inserting org-mode link"
+;  (interactive)
+;  (let* ((indir (expand-file-name pm/path_to_screenshots))
+;         (infile (get-newest-file-from-dir indir))
+;         (outdir (concat (file-name-directory (buffer-file-name)) "./media"))
+;         (outfile (expand-file-name (file-name-nondirectory infile) outdir)))
+;    (unless (file-directory-p outdir)
+;      (make-directory outdir t))
+;    (rename-file infile outfile)
+;    (insert (concat (concat "#+org_attr: :width 30%\n[[./media/" (file-name-nondirectory outfile)) "]]")))
+;  (newline)
+;  (newline))
 
-(require 'org-inlinetask)
+;(require 'org-inlinetask)
 
-(use-package multi-term)
-(global-set-key (kbd "C-c t") 'multi-term)
+;(use-package org2blog
+;  :ensure t)
+
+;(use-package multi-term)
+;(global-set-key (kbd "C-c t") 'multi-term)
 
 (use-package simple-httpd
-  :ensure t)
-
-(use-package org2blog
   :ensure t)
 
 ;; Make ESC quit prompts
@@ -581,10 +561,10 @@
 
   "m"   '(magit :which-key "magit")
 
-  "n"   '(:ignore t :which-key "notes")
-  "nn"  '(org-roam-dailies-capture-today :which-key "capture note")
-  "nt"  '(org-roam-dailies-goto-today :which-key "goto todays notes")
-  "nd"  '(org-roam-dailies-goto-today :which-key "goto note of date")
+  ;"n"   '(:ignore t :which-key "notes")
+  ;"nn"  '(org-roam-dailies-capture-today :which-key "capture note")
+  ;"nt"  '(org-roam-dailies-goto-today :which-key "goto todays notes")
+  ;"nd"  '(org-roam-dailies-goto-today :which-key "goto note of date")
 
   "D"   '(dashboard-refresh-buffer :which-key "dashboard")
 
@@ -595,11 +575,11 @@
   "do"  '((lambda () (interactive) (dired pm/path_to_downloads)) :which-key "Downloads")
   "dp"  '((lambda () (interactive) (dired pm/path_to_projects)) :which-key "Projects")
   "dP"  '((lambda () (interactive) (dired pm/path_to_pictures)) :which-key "Pictures")
-  "dv"  '((lambda () (interactive) (dired pm/path_to_videos)) :which-key "Videos")
+  ;"dv"  '((lambda () (interactive) (dired pm/path_to_videos)) :which-key "Videos")
   "dd"  '((lambda () (interactive) (dired pm/path_to_dotfiles)) :which-key "dotfiles")
   "de"  '((lambda () (interactive) (dired pm/path_to_emacsd)) :which-key ".emacs.d")
 
-  "b"  '(helm-bibtex :which-key "helm bibtex")
+  ;"b"  '(helm-bibtex :which-key "helm bibtex")
 
   "p" '(projectile-command-map :which-key "projectile")
   )
@@ -615,20 +595,20 @@
 (evil-define-key 'insert helm-map (kbd "C-k") 'helm-previous-line)
 (evil-define-key 'insert helm-map (kbd "C-j") 'helm-next-line)
 
-(global-set-key (kbd "C-c f") 'flyspell-toggle )
-(add-hook 'find-file-hook 'pm/flyspell-on-for-buffer-type)
+;(global-set-key (kbd "C-c f") 'flyspell-toggle )
+;(add-hook 'find-file-hook 'pm/flyspell-on-for-buffer-type)
 
-(global-set-key (kbd "C-c n l") 'org-roam-buffer-toggle)
-(global-set-key (kbd "C-c n f") 'org-roam-node-find)
-(global-set-key (kbd "C-c n i") 'org-roam-node-insert)
-(global-set-key (kbd "C-c n t") 'org-roam-dailies-find-today)
-(global-set-key (kbd "C-c n d") 'org-roam-dailies-find-date)
-(global-set-key (kbd "C-c n n") 'org-roam-dailies-capture-today)
+;(global-set-key (kbd "C-c n l") 'org-roam-buffer-toggle)
+;(global-set-key (kbd "C-c n f") 'org-roam-node-find)
+;(global-set-key (kbd "C-c n i") 'org-roam-node-insert)
+;(global-set-key (kbd "C-c n t") 'org-roam-dailies-find-today)
+;(global-set-key (kbd "C-c n d") 'org-roam-dailies-find-date)
+;(global-set-key (kbd "C-c n n") 'org-roam-dailies-capture-today)
 
-(global-set-key (kbd "C-c n c") 'org-ref-cite-insert-helm)
+;(global-set-key (kbd "C-c n c") 'org-ref-cite-insert-helm)
 
-(global-set-key (kbd "C-c i i") 'insert-org-image)
-(global-set-key (kbd "C-c i t") 'org-toggle-inline-images)
+;(global-set-key (kbd "C-c i i") 'insert-org-image)
+;(global-set-key (kbd "C-c i t") 'org-toggle-inline-images)
 
 ;; (use-package yasnippet
 ;;   :config
