@@ -176,6 +176,8 @@ alias stem="tmux new-session -d -s emacs 'aenv autotune && emacs &'"
 alias tat="tmux attach -t"
 alias vim="nvim"
 
+alias yolomouse="~/bin/swcursor/swcursor -i ~/bin/swcursor/cursors/cursor-large.png -r 30"
+
 ##############################################################################
 # MACOS
 #

@@ -15,7 +15,8 @@ set $DP0 DP-4
 set $DP1 HDMI-0
 
 # set second monitor if available
-exec xrandr --output $DP0 --primary --left-of $DP1
+exec xrandr --output $DP0 --rotate normal --primary --left-of --output $DP1 --rotate right
+# exec xrandr --output $DP0 --rotate normal --pos 0x0 --primary --output $DP1 --pos 2560x-720 --rotate left
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -49,6 +50,7 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- $Locker
 exec --no-startup-id nm-applet
 
 exec --no-startup-id feh --bg-scale ~/Pictures/wallpaper/evening-sky.png
+# exec --no-startup-id feh --bg-fill ~/Pictures/wallpaper/Firewatch\ left.png --bg-fill ~/Pictures/wallpaper/Firewatch\ right.png
 
 exec --no-startup-id insync start
 
